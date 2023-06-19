@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1600</width>
+    <height>900</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>PK4ADI</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout"/>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1600</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu_file">
+    <property name="title">
+     <string>文件</string>
+    </property>
+    <addaction name="action_open"/>
+   </widget>
+   <widget class="QMenu" name="menu_window">
+    <property name="title">
+     <string>窗口</string>
+    </property>
+    <widget class="QMenu" name="menu_new_win">
+     <property name="title">
+      <string>新建</string>
+     </property>
+     <addaction name="action_new_win_data"/>
+     <addaction name="action_new_win_analysis"/>
+    </widget>
+    <addaction name="menu_new_win"/>
+    <addaction name="action_tile_subwin"/>
+   </widget>
+   <widget class="QMenu" name="menu_config">
+    <property name="title">
+     <string>配置</string>
+    </property>
+    <widget class="QMenu" name="menu_language">
+     <property name="title">
+      <string>语言</string>
+     </property>
+     <addaction name="action_ch"/>
+     <addaction name="action_en"/>
+    </widget>
+    <addaction name="menu_language"/>
+    <addaction name="action_outdir"/>
+   </widget>
+   <widget class="QMenu" name="menu_about">
+    <property name="title">
+     <string>关于</string>
+    </property>
+    <addaction name="action_kernel"/>
+    <addaction name="action_author"/>
+    <addaction name="action_logs"/>
+    <addaction name="action_lisence"/>
+   </widget>
+   <addaction name="menu_file"/>
+   <addaction name="menu_window"/>
+   <addaction name="menu_config"/>
+   <addaction name="menu_about"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="action_open">
+   <property name="text">
+    <string>打开</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="action_new_win_data">
+   <property name="text">
+    <string>数据窗口</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+D</string>
+   </property>
+  </action>
+  <action name="action_new_win_analysis">
+   <property name="text">
+    <string>分析窗口</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+A</string>
+   </property>
+  </action>
+  <action name="action_tile_subwin">
+   <property name="text">
+    <string>平铺</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="action_ch">
+   <property name="text">
+    <string>中文</string>
+   </property>
+  </action>
+  <action name="action_en">
+   <property name="text">
+    <string>English</string>
+   </property>
+  </action>
+  <action name="action_outdir">
+   <property name="text">
+    <string>默认输出文件夹</string>
+   </property>
+  </action>
+  <action name="action_kernel">
+   <property name="text">
+    <string>分析内核</string>
+   </property>
+  </action>
+  <action name="action_author">
+   <property name="text">
+    <string>作者</string>
+   </property>
+  </action>
+  <action name="action_logs">
+   <property name="text">
+    <string>更新日志</string>
+   </property>
+  </action>
+  <action name="action_lisence">
+   <property name="text">
+    <string>协议</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
