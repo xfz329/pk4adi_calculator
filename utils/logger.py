@@ -1,28 +1,8 @@
 import logging
 import logging.config
-from pathlib import Path
-import os, sys
+from utils.dirs import init_log_files
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-print(BASE_DIR)
-
-LOG_PATH = os.path.join(BASE_DIR,'log')
-print(LOG_PATH)
-if not os.path.exists(LOG_PATH):
-    os.makedirs(LOG_PATH)
-DEBUG_FILE = os.path.join(LOG_PATH,'debug.log')
-WARN_FILE = os.path.join(LOG_PATH,'warn.log')
-INFO_FILE = os.path.join(LOG_PATH,'info.log')
-FILES = [DEBUG_FILE, WARN_FILE, INFO_FILE]
-
-for f in FILES:
-    if not os.path.exists(f):
-        if str(sys.platform).startswith('win'):
-            with open(f, 'a+') as fp:
-                fp.close()
-        else:
-            os.mknod(f)
-
+file_dict = init_log_files()
 
 config = {
     'version' : 1,
@@ -48,7 +28,7 @@ config = {
         'debug': {
             'level': 'DEBUG',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(BASE_DIR, 'log/debug.log'),
+            'filename': file_dict.get("debug"),
             'formatter' : 'verbose',
             'maxBytes': 1024 * 1024 * 100,
             'backupCount': 10,
@@ -57,7 +37,7 @@ config = {
         'info': {
             'level': 'INFO',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(BASE_DIR, 'log/info.log'),
+            'filename': file_dict.get("info"),
             'formatter' : 'verbose',
             'maxBytes': 1024 * 1024 * 100,
             'backupCount': 10,
@@ -66,7 +46,16 @@ config = {
         'warn': {
             'level': 'WARNING',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(BASE_DIR, 'log/warn.log'),
+            'filename': file_dict.get("warn"),
+            'formatter' : 'verbose',
+            'maxBytes': 1024 * 1024 * 100,
+            'backupCount': 10,
+            'encoding': 'utf-8',
+        },
+        'error': {
+            'level': 'ERROR',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': file_dict.get("error"),
             'formatter' : 'verbose',
             'maxBytes': 1024 * 1024 * 100,
             'backupCount': 10,
@@ -75,7 +64,7 @@ config = {
     },
     'loggers' : {
         'pk_gui' : {
-            'handlers' : ['console', 'debug','info','warn'],
+            'handlers' : ['console', 'debug','info','warn', 'error'],
             'level' : 'DEBUG',
         }
     }

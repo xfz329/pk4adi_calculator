@@ -23,13 +23,13 @@ class TaskOpen(Task):
         self.thread.start()
 
     def get_file_to_open(self):
-        file = r"D:\UrgeData\Desktop\pk_test\11.xlsx"
-        # f = QFileDialog.getOpenFileName(None, "打开", "D:\\UrgeData\\Desktop", ".csv *.*")
-        # file = f[0]
-        # if file == "":
-        #     self.log.error("No files is selected to open")
-        #     return None
-        # self.log.info("Open file " + file)
+        # file = r"D:\UrgeData\Desktop\pk_test\11.xlsx"
+        f = QFileDialog.getOpenFileName(None, "打开", "D:\\UrgeData\\Desktop", ".csv *.*")
+        file = f[0]
+        if file == "":
+            self.log.error("No files is selected to open")
+            return None
+        self.log.info("Open file " + file)
         return file
 
     def open(self,file):

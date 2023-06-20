@@ -7,3 +7,4 @@
 """
 
 from .logger import *
+from .dirs import *

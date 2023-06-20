@@ -7,3 +7,4 @@
 """
 from .main_basic import *
 from .analysis import *
+from .mydialog import *
