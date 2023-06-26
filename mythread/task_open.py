@@ -41,7 +41,7 @@ class TaskOpen(Task):
             df = pd.read_csv(file)
             self.log.info("open files finished!")
         elif file.endswith(".xls") or file.endswith(".xlsx"):
-            df = pd.read_excel(file)
+            df = pd.read_excel(file, None)
             self.log.info("open files finished!")
         else:
             self.log.error("Unsupported file type "+file)

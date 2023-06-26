@@ -36,6 +36,10 @@
      <string>窗口</string>
     </property>
     <addaction name="action_new_win_analysis"/>
+    <addaction name="separator"/>
+    <addaction name="action_previous_sheeet"/>
+    <addaction name="action_next_sheet"/>
+    <addaction name="action_first_sheet"/>
    </widget>
    <widget class="QMenu" name="menu_config">
     <property name="title">
@@ -109,6 +113,30 @@
   <action name="action_lisence">
    <property name="text">
     <string>协议</string>
+   </property>
+  </action>
+  <action name="action_previous_sheeet">
+   <property name="text">
+    <string>上一页</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+P</string>
+   </property>
+  </action>
+  <action name="action_next_sheet">
+   <property name="text">
+    <string>下一页</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
+  </action>
+  <action name="action_first_sheet">
+   <property name="text">
+    <string>第一页</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+F</string>
    </property>
   </action>
  </widget>

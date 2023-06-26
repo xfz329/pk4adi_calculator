@@ -7,7 +7,9 @@
 """
 
 import pandas as pd
-from PyQt5 import QtCore, QtWidgets
+from PyQt5 import QtCore, QtWidgets, QtGui
+from PyQt5.QtWidgets import QMessageBox
+
 from qtpandas.models.DataFrameModel import DataFrameModel
 from qtpandas.views.DataTableView import DataTableWidget
 
@@ -22,16 +24,31 @@ class Ui_My_MainWindow(Ui_MainWindow):
         super(Ui_MainWindow, self).__init__()
         self.current_file = None
         self.log = Logger().get_logger()
-        self.taskOpen = TaskOpen(self.update_data, "open")
+        self.taskOpen = TaskOpen(self.get_data, "open")
         self.AnalysisWindow = None
         self.qtpandas_widget = None
         self.data = None
+        self.data_dict = None
+        self.sheet_name = None
+        self.sheet_num = 0
 
     def setupUi(self, MainWindow):
         super().setupUi(MainWindow)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("./figures/cbeis.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        MainWindow.setWindowIcon(icon)
         self.init_ptpandas_widget(MainWindow)
+
         self.action_open.triggered.connect(self.open)
         self.action_new_win_analysis.triggered.connect(self.show_analysis)
+        self.action_previous_sheeet.triggered.connect(self.to_previous_sheet)
+        self.action_next_sheet.triggered.connect(self.to_next_sheet)
+        self.action_first_sheet.triggered.connect(self.to_first_sheet)
+        self.action_previous_sheeet.setEnabled(False)
+        self.action_next_sheet.setEnabled(False)
+        self.action_first_sheet.setEnabled(False)
+
+        self.update_statusbar("系统初始化完毕")
 
     def init_ptpandas_widget(self, MainWindow):
         widget = DataTableWidget()
@@ -45,17 +62,61 @@ class Ui_My_MainWindow(Ui_MainWindow):
         self.qtpandas_widget = widget
 
     def open(self):
+        self.action_previous_sheeet.setEnabled(False)
+        self.action_next_sheet.setEnabled(False)
+        self.action_first_sheet.setEnabled(False)
         self.taskOpen.set_worker()
 
     def show_analysis(self):
         self.AnalysisWindow = aum(self.data)
         self.AnalysisWindow.show()
 
-    def update_data(self):
-        df = self.taskOpen.get_ans()
-        if df is not None:
-            self.qtpandas_widget.model().setDataFrame(df)
-            self.data = df
+    def get_data(self):
+        data = self.taskOpen.get_ans()
+        self.log.info(data)
+        if isinstance(data, dict):
+            QMessageBox.information(None, "打开文件成功", "已打开包含多个sheet的xls/xlsx文件。当前显示该文件的第一个sheet。", QMessageBox.Ok)
+            self.action_previous_sheeet.setEnabled(True)
+            self.action_next_sheet.setEnabled(True)
+            self.action_first_sheet.setEnabled(True)
+
+            self.data_dict = data
+            self.sheet_name = list(data.keys())
+            self.to_sheet_n(0)
+        else:
+            self.update_data(data)
+            QMessageBox.information(None, "打开文件成功", "打开文件成功，其数据已显示。", QMessageBox.Ok)
+
+    def update_data(self, data):
+        if isinstance(data,pd.DataFrame):
+            self.qtpandas_widget.model().setDataFrame(data)
+            self.data = data
+
+    def to_first_sheet(self):
+        self.sheet_num = 0
+        self.to_sheet_n(self.sheet_num)
+
+    def to_previous_sheet(self):
+        n = len(self.sheet_name)
+        self.sheet_num = (self.sheet_num + n - 1) % n
+        self.to_sheet_n(self.sheet_num)
+
+    def to_next_sheet(self):
+        n = len(self.sheet_name)
+        self.sheet_num = (self.sheet_num + 1) % n
+        self.to_sheet_n(self.sheet_num)
+
+    def to_sheet_n(self, n):
+        sheet = self.sheet_name[n]
+        df = self.data_dict.get(sheet, None)
+        self.update_data(df)
+        self.update_statusbar("当前显示已打开文件的sheet为"+sheet)
+
+    def update_statusbar(self,msg):
+        self.statusbar.clearMessage()
+        datetime = QtCore.QDateTime.currentDateTime()
+        text = datetime.toString("HH:mm:ss")
+        self.statusbar.showMessage(text+"  "+msg, 5000)
 
 if __name__ == "__main__":
     import sys
