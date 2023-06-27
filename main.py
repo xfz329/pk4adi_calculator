@@ -33,6 +33,7 @@ class Ui_My_MainWindow(Ui_MainWindow):
         self.data_dict = None
         self.sheet_name = None
         self.sheet_num = 0
+        self.version_num = "0.1.3.c"
 
     def setupUi(self, MainWindow):
         super().setupUi(MainWindow)
@@ -52,7 +53,8 @@ class Ui_My_MainWindow(Ui_MainWindow):
         self.action_next_sheet.setEnabled(False)
         self.action_first_sheet.setEnabled(False)
 
-        self.update_statusbar("系统初始化完毕")
+        self.update_statusbar("系统初始化完毕 "+self.version_num)
+        self.log.info("系统初始化完毕 "+self.version_num)
 
     def init_ptpandas_widget(self, MainWindow):
         widget = DataTableWidget()
@@ -60,7 +62,11 @@ class Ui_My_MainWindow(Ui_MainWindow):
         widget.tableView.setSortingEnabled(False)
         model = DataFrameModel()
         widget.setViewModel(model)
-        df = pd.DataFrame(columns=['A', 'B', 'C', 'D'], index=range(1, 4))
+
+        cls = [chr(x) for x in range(ord('A'), ord('Z') + 1)]
+        df = pd.DataFrame(columns=cls, index=range(1, 4))
+        df = df.fillna("")
+
         model.setDataFrame(df)
         MainWindow.setCentralWidget(widget)
         self.qtpandas_widget = widget
@@ -69,13 +75,14 @@ class Ui_My_MainWindow(Ui_MainWindow):
         self.action_previous_sheeet.setEnabled(False)
         self.action_next_sheet.setEnabled(False)
         self.action_first_sheet.setEnabled(False)
-        self.taskOpen.set_worker()
+        self.log.info("开始新一轮的数据分析")
         self.log.debug("开启新线程读取文件")
+        self.taskOpen.set_worker()
 
     def show_analysis(self):
+        self.log.info("打开数据分析窗口")
         self.AnalysisWindow = aum(self.data)
         self.AnalysisWindow.show()
-        self.log.info("打开数据分析窗口")
 
     def show_about(self):
         self.AboutWindow = abum("about")
@@ -87,19 +94,27 @@ class Ui_My_MainWindow(Ui_MainWindow):
 
     def get_data(self):
         data = self.taskOpen.get_ans()
-        self.log.info(data)
+        self.log.info("从线程获取的数据类型为 " + str(type(data)))
+        self.log.debug("从线程获取的数据为")
+        self.log.debug(data)
         if isinstance(data, dict):
-            QMessageBox.information(None, "打开文件成功", "已打开包含多个sheet的xls/xlsx文件。当前显示该文件的第一个sheet。", QMessageBox.Ok)
-            self.action_previous_sheeet.setEnabled(True)
-            self.action_next_sheet.setEnabled(True)
-            self.action_first_sheet.setEnabled(True)
-
+            if len(data) > 1:
+                self.log.info("已打开包含多个工作簿的xls/xlsx文件，当前显示该文件的第一个工作簿")
+                QMessageBox.information(None, "打开文件成功", "已打开包含多个sheet的xls/xlsx文件。当前显示该文件的第一个工作簿。", QMessageBox.Ok)
+                self.action_previous_sheeet.setEnabled(True)
+                self.action_next_sheet.setEnabled(True)
+                self.action_first_sheet.setEnabled(True)
+            else:
+                self.log.info("已打开仅包含一个sheet的xls/xlsx文件")
             self.data_dict = data
             self.sheet_name = list(data.keys())
             self.to_sheet_n(0)
-        else:
+        elif isinstance(data,pd.DataFrame):
             self.update_data(data)
-            QMessageBox.information(None, "打开文件成功", "打开文件成功，其数据已显示。", QMessageBox.Ok)
+            self.log.info("已打开csv文件")
+        else:
+            self.log.warning("打开文件失败，请选择有效数据分析分析")
+            QMessageBox.warning(None, "打开文件失败", "请选择有效数据分析分析。", QMessageBox.Ok)
 
     def update_data(self, data):
         if isinstance(data,pd.DataFrame):
@@ -124,7 +139,9 @@ class Ui_My_MainWindow(Ui_MainWindow):
         sheet = self.sheet_name[n]
         df = self.data_dict.get(sheet, None)
         self.update_data(df)
-        self.update_statusbar("当前显示已打开文件的sheet为"+sheet)
+        msg = "已显示打开文件的多个工作簿中的{0} ({1}/{2})".format(sheet, n+1, len(self.sheet_name))
+        self.update_statusbar(msg)
+        self.log.info(msg)
 
     def update_statusbar(self,msg):
         self.statusbar.clearMessage()

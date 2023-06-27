@@ -79,7 +79,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "PK4ADI"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "PK4ADI计算器"))
         self.menu_file.setTitle(_translate("MainWindow", "文件"))
         self.menu_window.setTitle(_translate("MainWindow", "窗口"))
         self.menu_config.setTitle(_translate("MainWindow", "配置"))

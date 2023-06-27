@@ -6,7 +6,6 @@
 @License :   (C)Copyright 2004-2020, Zhejiang University
 """
 from qtpandas.models.ProgressThread import createThread
-import pandas as pd
 from mythread.worker import Worker
 from utils.logger import Logger
 

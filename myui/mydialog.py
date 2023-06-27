@@ -20,10 +20,11 @@ class Ui_Dialog(QDialog):
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("./figures/pk.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.setWindowIcon(icon)
+        self.lineEdit.setPlaceholderText("随便记录一点关于本次分析的备忘吧")
 
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(487, 334)
+        Dialog.resize(600, 400)
         self.gridLayout = QtWidgets.QGridLayout(Dialog)
         self.gridLayout.setObjectName("gridLayout")
         self.label = QtWidgets.QLabel(Dialog)
@@ -59,7 +60,7 @@ class Ui_Dialog(QDialog):
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
+        Dialog.setWindowTitle(_translate("Dialog", "操作备忘"))
         self.label.setText(_translate("Dialog", "操作备忘"))
 
     def emit_signal(self):

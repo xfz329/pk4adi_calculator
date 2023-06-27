@@ -34,6 +34,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
         self.data = data
         self.log = Logger().get_logger()
+        self.log.info("基于当前显示数据进行分析，分析窗口初始化开始")
 
         self.add2x = False
         self.add2y = False
@@ -66,6 +67,8 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.n_pks = 0
 
         self.pre = None
+
+        self.log.info("分析窗口初始化完成")
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -197,13 +200,15 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         full_path = root + "\Analysis_" + time.strftime("%Y-%m-%d", time.localtime())
         if not os.path.exists(full_path):
             os.mkdir(full_path)
-        QMessageBox.information(None, "输出目录设置成功", "本次分析的输出目录已设置为 " + full_path, QMessageBox.Ok)
+        QMessageBox.information(None, "输出目录设置成功", "本次分析的文件输出目录已设置为 " + full_path, QMessageBox.Ok)
         self.out_dir = full_path
-        self.log.info(full_path)
+        self.log.info("本次分析的文件输出目录已设置为 " + full_path)
 
     def load_data(self, df):
         if isinstance(df, pd.DataFrame):
             self.list_model_all.setStringList(df.columns)
+            self.log.info("载入数据的列名成功")
+            self.log.info(df.columns)
 
     def init_view(self):
         self.pushButton_x.setEnabled(False)
@@ -228,6 +233,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
     def clicked_button_open_dir(self):
         os.startfile(self.out_dir)
+        self.log.info("已打开本次分析的输出目录 "+self.out_dir)
 
     def enable_all_buttons(self):
         self.add2x = True
@@ -267,31 +273,74 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         start.model().setStringList([])
         end.model().setStringList(temp)
 
+    def show_selected_list_names(self, l):
+        selected = l.selectedIndexes()
+        ans = []
+        for i in selected:
+            num = i.row()
+            line = l.model().stringList()[num]
+            ans.append(line)
+        return ans
+
+    def show_list_names(self, l):
+        return l.model().stringList()
+
     def clicked_button_x(self):
         if self.add2x:
+            self.log.debug("数据中以下列已被设为观测变量")
+            self.log.debug(self.show_selected_list_names(self.listView_all))
             self.exchange_selected_list(self.listView_all, self.listView_x)
+            self.log.debug("数据中以下列为当前观测变量")
+            self.log.debug(self.show_list_names(self.listView_x))
         else:
+            self.log.debug("数据中以下列已从观测变量中移除")
+            self.log.debug(self.show_selected_list_names(self.listView_x))
             self.exchange_selected_list(self.listView_x, self.listView_all)
+            self.log.debug("数据中以下列为当前观测变量")
+            self.log.debug(self.show_list_names(self.listView_x))
 
     def clicked_button_y(self):
         if self.add2y:
             if len(self.listView_y.model().stringList()) == 0:
                 self.exchange_selected_list(self.listView_all, self.listView_y)
+                self.log.debug("数据中以下列已被设为独立变量")
+                self.log.debug(self.show_list_names(self.listView_y))
             else:
-                QMessageBox.warning(None, "参数错误", "一次分析只能设置一个独立变量！", QMessageBox.Ok)
+                QMessageBox.critical(None, "参数错误", "一次分析只能设置一个独立变量！", QMessageBox.Ok)
+                self.log.error("一次分析只能设置一个独立变量，下列设置为独立变量时发生错误")
+                self.log.error(self.show_selected_list_names(self.listView_all))
+                self.log.error("数据中以下列已被设为独立变量")
+                self.log.error(self.show_list_names(self.listView_y))
         else:
             self.exchange_selected_list(self.listView_y, self.listView_all)
+            self.log.debug("数据中以下列已从独立变量移除，当前独立变量为空")
+            self.log.debug(self.show_list_names(self.listView_y))
 
     def clicked_button_all(self):
         if self.add2x:
+            self.log.debug("数据中以下列已统一被设为观测变量")
+            self.log.debug(self.show_list_names(self.listView_all))
             self.exchange_all_list(self.listView_all, self.listView_x)
+            self.log.debug("数据中以下列为当前观测变量")
+            self.log.debug(self.show_list_names(self.listView_x))
         else:
+            self.log.debug("数据中以下列已统一从观测变量中移除")
+            self.log.debug(self.show_list_names(self.listView_x))
             self.exchange_all_list(self.listView_x, self.listView_all)
+            self.log.debug("数据中以下列为当前观测变量")
+            self.log.debug(self.show_list_names(self.listView_x))
 
     def clicked_button_pk(self):
         pk_ready = len(self.listView_x.model().stringList()) > 0 and len(self.listView_y.model().stringList()) > 0
+        self.log.info("开始计算PK值")
+        self.log.info("数据中以下列已被设为独立变量")
+        self.log.info(self.show_list_names(self.listView_y))
+        self.log.info("数据中以下列为当前观测变量")
+        self.log.info(self.show_list_names(self.listView_x))
+
         if not pk_ready:
-            QMessageBox.warning(None, "参数错误", "一次分析需要设置一个独立变量和至少一个检验变量！", QMessageBox.Ok)
+            QMessageBox.warning(None, "参数错误", "PK值计算需要设置一个独立变量和至少一个检验变量！", QMessageBox.Ok)
+            self.log.error("PK值计算需要设置一个独立变量和至少一个检验变量")
             return
         y_name = self.listView_y.model().stringList()[0]
         x_names = self.listView_x.model().stringList()
@@ -300,14 +349,18 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         index = 0
 
         for x_name in x_names:
+            self.log.info("开始计算 {0} 与 {1} 的PK值".format(x_name, y_name))
             ans = self.query_pk(x_name, y_name)
             if None != ans:
+                self.log.info("计算 {0} 与 {1} 的PK值成功，其结果已缓存")
                 new_row = [index + 1, y_name, x_name, ans.get("PK"), ans.get("SE0"), ans.get("SE1"),
                            ans.get("jack_ok"), ans.get("PKj"), ans.get("SEj")]
                 df.loc[index] = new_row
                 index = index + 1
 
+        self.log.info("本次PK值计算结束，具体结果为")
         self.log.info(df)
+        self.log.info("上述结果准备输出为下列文件")
 
         pre = time.strftime("%H-%M-%S", time.localtime()) + "_PK"
         csv_name_utf8 = os.path.join(self.out_dir, pre + "_utf8.csv")
@@ -320,18 +373,21 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         df = df.round(3)
 
         try:
+            self.log.debug("开始写入以上文件")
             df.to_csv(csv_name_utf8)
             df.to_csv(csv_name_ansi, encoding="ansi")
             df.to_excel(xlsx_name)
             write_ok = True
         except Exception as e:
-            self.log.error(e)
             info = traceback.format_exc()
+            self.log.error("以上文件写入失败")
+            self.log.error("具体原因为")
+            self.log.error(e)
             self.log.error(info)
-            self.log.error("Error")
             write_ok = False
         if write_ok:
             QMessageBox.information(None, "PK值计算完成", "已完成对当前选择数据的PK值计算，请查看输出文件夹的最新.csv文件与.xlsx文件。", QMessageBox.Ok)
+            self.log.info("以上文件写入成功")
             self.pre = pre
             dialog = Ui_Dialog(self)
             dialog.show()
@@ -341,8 +397,14 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
     def clicked_button_pks(self):
         pks_ready = len(self.listView_x.model().stringList()) > 1 and len(self.listView_y.model().stringList()) > 0
+        self.log.info("开始比较PK值")
+        self.log.info("数据中以下列已被设为独立变量")
+        self.log.info(self.show_list_names(self.listView_y))
+        self.log.info("数据中以下列为当前观测变量")
+        self.log.info(self.show_list_names(self.listView_x))
         if not pks_ready:
-            QMessageBox.warning(None, "参数错误", "一次分析需要设置一个独立变量和至少两个检验变量！", QMessageBox.Ok)
+            QMessageBox.warning(None, "参数错误", "PK值比较需要设置一个独立变量和至少两个检验变量！", QMessageBox.Ok)
+            self.log.error("PK值比较需要设置一个独立变量和至少两个检验变量")
             return
         y_name = self.listView_y.model().stringList()[0]
         x_names = self.listView_x.model().stringList()
@@ -353,15 +415,20 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         for i in x_names:
             for j in x_names:
                 if i != j:
+                    self.log.info("开始比较 {0} 和 {1} 分别与 {2} 的PK值".format(i, j, y_name))
                     ans = self.query_pkc(i, j, y_name)
                     if None != ans:
+                        self.log.info("比较 {0} 和 {1} 分别与 {2} 的PK值成功，其结果已缓存".format(i, j, y_name))
                         new_row = [index + 1, y_name, i, j,
                                    ans.get("PKD"), ans.get("SED"), ans.get("ZD"), ans.get("ZP"), ans.get("ZJ"),
                                    ans.get("PKDJ"), ans.get("SEDJ"), ans.get("DF"), ans.get("TD"), ans.get("TP"),
                                    ans.get("TJ")]
                         df.loc[index] = new_row
                         index = index + 1
+
+        self.log.info("本次PK值比较结束，具体结果为")
         self.log.info(df)
+        self.log.info("上述结果准备输出为下列文件")
 
         pre = time.strftime("%H-%M-%S", time.localtime()) + "_PKC"
         csv_name_utf8 = os.path.join(self.out_dir, pre + "_utf8.csv")
@@ -372,29 +439,37 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.log.info(xlsx_name)
 
         df = df.round(3)
+
         try:
+            self.log.debug("开始写入以上文件")
             df.to_csv(csv_name_utf8)
             df.to_csv(csv_name_ansi, encoding="ansi")
             df.to_excel(xlsx_name)
             write_ok = True
         except Exception as e:
-            self.log.error(e)
             info = traceback.format_exc()
+            self.log.error("以上文件写入失败")
+            self.log.error("具体原因为")
+            self.log.error(e)
             self.log.error(info)
-            self.log.error("Error")
             write_ok = False
         if write_ok:
             QMessageBox.information(None, "PK值比较已完成", "已完成对当前选择数据的PK值比较，请查看输出文件夹的最新的.csv文件与.xlsx文件。", QMessageBox.Ok)
+            self.log.info("以上文件写入成功")
             self.pre = pre
             dialog = Ui_Dialog(self)
             dialog.show()
             dialog.Get_text.connect(self.write_text)
 
     def query_pk(self, xn, yn):
+        self.log.debug("查询 {0} 与 {1} 的PK值是否已有缓存".format(xn, yn))
         for k in self.name_dict:
             if [xn, yn] == self.name_dict.get(k, "unknown"):
+                self.log.debug("查询成功，直接返回该值")
                 return self.pk_dict.get(k, "unknown")
+        self.log.debug("查询失败，开始计算")
         pk = self.pk(xn, yn)
+        self.log.debug("计算成功，更新缓存")
         key = str(self.n_pk)
         self.name_dict.update({key: [xn, yn]})
         self.pk_dict.update({key: pk})
@@ -402,18 +477,23 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         return pk
 
     def query_pkc(self, x1, x2, y):
+        self.log.debug("查询 {0} 和 {1} 分别与 {2} 的PK值的比较结果是否已有缓存".format(x1, x2, y))
         for k in self.names_dict:
             if [x1, x2, y] == self.names_dict.get(k, "unknown"):
+                self.log.debug("查询成功，直接返回该值")
                 return self.pkc_dict.get(k, "unknown")
+        self.log.debug("查询失败，开始计算并比较")
         pk1 = self.query_pk(x1, y)
         pk2 = self.query_pk(x2, y)
         if None != pk1 and None != pk2:
             ans = self.pks(pk1, pk2)
-        key = str(self.n_pks)
-        self.names_dict.update({key: [x1, x2, y]})
-        self.pkc_dict.update({key: ans})
-        self.n_pks = self.n_pks + 1
-        return ans
+            self.log.debug("计算成功，更新缓存")
+            key = str(self.n_pks)
+            self.names_dict.update({key: [x1, x2, y]})
+            self.pkc_dict.update({key: ans})
+            self.n_pks = self.n_pks + 1
+            return ans
+        return None
 
     def pk(self, xn, yn):
         x = self.data.loc[:, xn]
@@ -421,28 +501,34 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
         if x.apply(lambda n: not isinstance(n, (int, float))).any():
             QMessageBox.warning(None, "值错误", "检验变量 " + xn + " 数据类型错误，需要为整型或浮点型！", QMessageBox.Ok)
+            self.log.warning("检验变量 " + xn + " 数据类型错误，需要为整型或浮点型")
             return None
         if x.isna().any():
             QMessageBox.warning(None, "值错误", "检验变量 " + xn + " 包含非数值字符！", QMessageBox.Ok)
+            self.log.warning("检验变量 " + xn + " 包含非数值字符")
             return None
         if y.apply(lambda n: not isinstance(n, (int, float))).any():
             QMessageBox.warning(None, "值错误", "独立变量 " + yn + " 数据类型错误，需要为整型或浮点型！", QMessageBox.Ok)
+            self.log.warning("独立变量 " + yn + " 数据类型错误，需要为整型或浮点型")
             return None
         if y.isna().any():
             QMessageBox.warning(None, "值错误", "独立变量 " + yn + " 包含非数值字符！", QMessageBox.Ok)
+            self.log.warning("独立变量 " + yn + " 包含非数值字符")
             return None
         lx = len(x)
         ly = len(y)
         if lx != ly or lx < 2:
             QMessageBox.warning(None, "数据长度错误", "独立变量" + yn + " 与观测变量 " + xn + "长度不等或长度小于2。", QMessageBox.Ok)
+            self.log.warning("独立变量" + yn + " 与观测变量 " + xn + "长度不等或长度小于2")
             return None
         sy = y.tolist()
         if len(set(sy)) < 2:
             QMessageBox.warning(None, "值错误", "独立变量" + yn + "需要包含至少2个区分数值。", QMessageBox.Ok)
+            self.log.warning("独立变量" + yn + "需要包含至少2个区分数值")
             return None
 
         ans = calculate_pk(x, y, False)
-        self.log.info(ans)
+        self.log.debug(ans)
 
         return ans
 
@@ -455,19 +541,22 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
             self.log.error(info)
             self.log.error("Error")
             return None
-        self.log.info(ans)
+        self.log.debug(ans)
         return ans
 
-    def write_text(self, str):
-        self.log.info(str)
+    def write_text(self, text):
+        self.log.info("备注信息为 " + text)
         f = os.path.join(self.out_dir, self.pre+"_Demo.txt")
+        self.log.info("准备写入备注信息至 "+f)
         try:
             with open(f, 'a+', encoding='utf-8') as fp:
-                fp.write(str)
+                fp.write(text)
                 fp.close()
+                self.log.info("写入备注信息成功")
         except Exception as e:
-            self.log.error(e)
             info = traceback.format_exc()
+            self.log.info("以上文件写入失败")
+            self.log.error("具体原因为")
+            self.log.error(e)
             self.log.error(info)
-            self.log.error("Error")
 

@@ -1,8 +1,8 @@
 ; 该脚本使用 HM VNISEdit 脚本编辑器向导产生
 
 ; 安装程序初始定义常量
-!define PRODUCT_NAME "PK4ADI Calculator"
-!define PRODUCT_VERSION "0.1.3.b"
+!define PRODUCT_NAME "PK4ADI计算器"
+!define PRODUCT_VERSION "0.1.3.c"
 !define PRODUCT_PUBLISHER "浙江大学生仪学院"
 !define PRODUCT_WEB_SITE "http://www.cbeis.zju.edu.cn/main.htm"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
@@ -21,13 +21,13 @@ SetCompressor lzma
 ; 欢迎页面
 !insertmacro MUI_PAGE_WELCOME
 ; 许可协议页面
-!insertmacro MUI_PAGE_LICENSE "D:\UrgeData\Documents\Codes\Github\pk_gui\about\licence.txt"
+!insertmacro MUI_PAGE_LICENSE "D:\UrgeData\Documents\Codes\Github\pk_gui\license\license.txt"
 ; 安装目录选择页面
 !insertmacro MUI_PAGE_DIRECTORY
 ; 安装过程页面
 !insertmacro MUI_PAGE_INSTFILES
 ; 安装完成页面
-!define MUI_FINISHPAGE_RUN "$INSTDIR\main.exe"
+!define MUI_FINISHPAGE_RUN "$INSTDIR\PK4ADI.exe"
 !insertmacro MUI_PAGE_FINISH
 
 ; 安装卸载过程页面
@@ -41,7 +41,7 @@ SetCompressor lzma
 ; ------ MUI 现代界面定义结束 ------
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-OutFile "D:\UrgeData\Documents\Codes\Github\pk_gui\nsis\PK4ADI_0.1.3.b_x64-setup.exe"
+OutFile "D:\UrgeData\Documents\Codes\Github\pk_gui\nsis\PK4ADI_0.1.3.c_x64-setup.exe"
 InstallDir "$PROGRAMFILES\PK4ADI"
 ShowInstDetails show
 ShowUnInstDetails show
@@ -49,14 +49,14 @@ ShowUnInstDetails show
 Section "MainSection" SEC01
   SetOutPath "$INSTDIR"
   SetOverwrite ifnewer
-  File /r "D:\UrgeData\Documents\Codes\Github\pk_gui\dist\main\*.*"
+  File /r "D:\UrgeData\Documents\Codes\Github\pk_gui\dist\PK4ADI\*.*"
   WriteUninstaller "$INSTDIR\uninst.exe"     ;---- 这里是生成卸载程序
-  CreateShortCut "$DESKTOP\PK4ADI.lnk" "$INSTDIR\main.exe"
+  CreateShortCut "$DESKTOP\PK4ADI.lnk" "$INSTDIR\PK4ADI.exe"
 SectionEnd
 
 Section -AdditionalIcons
   CreateDirectory "$SMPROGRAMS\PK4ADI"
-  CreateShortCut "$SMPROGRAMS\PK4ADI\PK4ADI.lnk" "$INSTDIR\main.exe"
+  CreateShortCut "$SMPROGRAMS\PK4ADI\PK4ADI.lnk" "$INSTDIR\PK4ADI.exe"
   CreateShortCut "$SMPROGRAMS\PK4ADI\Uninstall.lnk" "$INSTDIR\uninst.exe"
 SectionEnd
 
@@ -95,9 +95,9 @@ Section Uninstall
   RMDir /r "$INSTDIR\pandas"
   RMDir /r "$INSTDIR\numpy"
   RMDir /r "$INSTDIR\importlib_metadata-6.0.0.dist-info"
-  RMDir /r "$INSTDIR\log"
   RMDir /r "$INSTDIR\future"
-;  Delete   "$INSTDIR\*.*"
+  RMDir /r "$INSTDIR\figures"
+  Delete   "$INSTDIR\*.*"
 ;  RMDir "$INSTDIR"
 
   DeleteRegKey ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}"

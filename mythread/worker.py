@@ -26,15 +26,16 @@ class Worker(ProgressWorker):
         self.kwargs = kwargs
 
     def run(self):
-        self.log.info("task starts at "+time.strftime("%H:%M:%S",time.localtime()))
+        self.log.debug("开始处理任务函数 "+time.strftime("%H:%M:%S",time.localtime()))
         try:
             self.ans = self.handle_job(* self.pwargs, ** self.kwargs)
         except Exception as e:
             self.log.error(e)
             info = traceback.format_exc()
+            self.log.error("任务函数处理出现错误！以下为详细信息")
             self.log.error(info)
             self.ans = {"error":e,"info":info}
-        self.log.info("task finishes at " + time.strftime("%H:%M:%S", time.localtime()))
+        self.log.debug("任务函数处理完毕 " + time.strftime("%H:%M:%S", time.localtime()))
 
     def handle_job(self, * pwargs, ** kwargs):
         pass

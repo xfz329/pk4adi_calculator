@@ -30,8 +30,8 @@ config = {
             'class': 'logging.handlers.RotatingFileHandler',
             'filename': file_dict.get("debug"),
             'formatter' : 'verbose',
-            'maxBytes': 1024 * 1024 * 100,
-            'backupCount': 10,
+            'maxBytes': 1024 * 1024 * 10,
+            'backupCount': 20,
             'encoding': 'utf-8',
         },
         'info': {
