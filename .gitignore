@@ -131,3 +131,15 @@ dmypy.json
 
 # pycharm
 .idea/
+
+# output
+*.csv
+*.xls
+*.xlsx
+*.txt
+
+# build files
+*.exe
+
+# about files
+!/about/*.*

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1600</width>
+    <height>900</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>PK4ADI计算器</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout"/>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1600</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu_file">
+    <property name="title">
+     <string>文件</string>
+    </property>
+    <addaction name="action_open"/>
+   </widget>
+   <widget class="QMenu" name="menu_window">
+    <property name="title">
+     <string>窗口</string>
+    </property>
+    <addaction name="action_new_win_analysis"/>
+    <addaction name="separator"/>
+    <addaction name="action_previous_sheeet"/>
+    <addaction name="action_next_sheet"/>
+    <addaction name="action_first_sheet"/>
+   </widget>
+   <widget class="QMenu" name="menu_config">
+    <property name="title">
+     <string>配置</string>
+    </property>
+    <widget class="QMenu" name="menu_language">
+     <property name="title">
+      <string>语言</string>
+     </property>
+     <addaction name="action_ch"/>
+     <addaction name="action_en"/>
+    </widget>
+    <addaction name="menu_language"/>
+   </widget>
+   <widget class="QMenu" name="menu_about">
+    <property name="title">
+     <string>帮助</string>
+    </property>
+    <addaction name="action_docs"/>
+    <addaction name="action_logs"/>
+    <addaction name="action_about"/>
+   </widget>
+   <addaction name="menu_file"/>
+   <addaction name="menu_window"/>
+   <addaction name="menu_config"/>
+   <addaction name="menu_about"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="action_open">
+   <property name="text">
+    <string>打开</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="action_new_win_analysis">
+   <property name="text">
+    <string>分析窗口</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+A</string>
+   </property>
+  </action>
+  <action name="action_ch">
+   <property name="text">
+    <string>中文</string>
+   </property>
+  </action>
+  <action name="action_en">
+   <property name="text">
+    <string>English</string>
+   </property>
+  </action>
+  <action name="action_docs">
+   <property name="text">
+    <string>文档</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+D</string>
+   </property>
+  </action>
+  <action name="action_logs">
+   <property name="text">
+    <string>更新日志</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+L</string>
+   </property>
+  </action>
+  <action name="action_about">
+   <property name="text">
+    <string>关于</string>
+   </property>
+   <property name="shortcut">
+    <string>F1</string>
+   </property>
+  </action>
+  <action name="action_previous_sheeet">
+   <property name="text">
+    <string>上一页</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+P</string>
+   </property>
+  </action>
+  <action name="action_next_sheet">
+   <property name="text">
+    <string>下一页</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
+  </action>
+  <action name="action_first_sheet">
+   <property name="text">
+    <string>第一页</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+F</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
