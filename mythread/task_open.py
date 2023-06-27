@@ -24,7 +24,7 @@ class TaskOpen(Task):
 
     def get_file_to_open(self):
         # file = r"D:\UrgeData\Desktop\pk_test\11.xlsx"
-        f = QFileDialog.getOpenFileName(None, "打开", "D:\\UrgeData\\Desktop", ".csv *.*")
+        f = QFileDialog.getOpenFileName(None, "打开", "D:\\UrgeData\\Desktop", "csv or xls files (*.csv *.xls *xlsx)")
         file = f[0]
         if file == "":
             self.log.error("No files is selected to open")

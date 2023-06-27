@@ -56,12 +56,11 @@
    </widget>
    <widget class="QMenu" name="menu_about">
     <property name="title">
-     <string>关于</string>
+     <string>帮助</string>
     </property>
-    <addaction name="action_kernel"/>
-    <addaction name="action_author"/>
+    <addaction name="action_docs"/>
     <addaction name="action_logs"/>
-    <addaction name="action_lisence"/>
+    <addaction name="action_about"/>
    </widget>
    <addaction name="menu_file"/>
    <addaction name="menu_window"/>
@@ -95,24 +94,28 @@
     <string>English</string>
    </property>
   </action>
-  <action name="action_kernel">
+  <action name="action_docs">
    <property name="text">
-    <string>分析内核</string>
+    <string>文档</string>
    </property>
-  </action>
-  <action name="action_author">
-   <property name="text">
-    <string>作者</string>
+   <property name="shortcut">
+    <string>Ctrl+D</string>
    </property>
   </action>
   <action name="action_logs">
    <property name="text">
     <string>更新日志</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+L</string>
+   </property>
   </action>
-  <action name="action_lisence">
+  <action name="action_about">
    <property name="text">
-    <string>协议</string>
+    <string>关于</string>
+   </property>
+   <property name="shortcut">
+    <string>F1</string>
    </property>
   </action>
   <action name="action_previous_sheeet">

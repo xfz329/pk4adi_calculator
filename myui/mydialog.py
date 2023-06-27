@@ -17,6 +17,9 @@ class Ui_Dialog(QDialog):
     def __init__(self, parent = None):
         super(QDialog, self).__init__(parent)
         self.setupUi(self)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("./figures/pk.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.setWindowIcon(icon)
 
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")

@@ -16,6 +16,7 @@ from qtpandas.views.DataTableView import DataTableWidget
 from mythread.task_open import TaskOpen
 from myui.analysis import Ui_MainWindow as aum
 from myui.main_basic import Ui_MainWindow
+from myui.about import Ui_MainWindow as abum
 from utils.logger import Logger
 
 
@@ -26,6 +27,7 @@ class Ui_My_MainWindow(Ui_MainWindow):
         self.log = Logger().get_logger()
         self.taskOpen = TaskOpen(self.get_data, "open")
         self.AnalysisWindow = None
+        self.AboutWindow = None
         self.qtpandas_widget = None
         self.data = None
         self.data_dict = None
@@ -35,12 +37,14 @@ class Ui_My_MainWindow(Ui_MainWindow):
     def setupUi(self, MainWindow):
         super().setupUi(MainWindow)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("./figures/cbeis.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("./figures/pk.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
         self.init_ptpandas_widget(MainWindow)
 
         self.action_open.triggered.connect(self.open)
         self.action_new_win_analysis.triggered.connect(self.show_analysis)
+        self.action_about.triggered.connect(self.show_about)
+        self.action_logs.triggered.connect(self.show_logs)
         self.action_previous_sheeet.triggered.connect(self.to_previous_sheet)
         self.action_next_sheet.triggered.connect(self.to_next_sheet)
         self.action_first_sheet.triggered.connect(self.to_first_sheet)
@@ -66,10 +70,20 @@ class Ui_My_MainWindow(Ui_MainWindow):
         self.action_next_sheet.setEnabled(False)
         self.action_first_sheet.setEnabled(False)
         self.taskOpen.set_worker()
+        self.log.debug("开启新线程读取文件")
 
     def show_analysis(self):
         self.AnalysisWindow = aum(self.data)
         self.AnalysisWindow.show()
+        self.log.info("打开数据分析窗口")
+
+    def show_about(self):
+        self.AboutWindow = abum("about")
+        self.AboutWindow.show()
+
+    def show_logs(self):
+        self.AboutWindow = abum("logs")
+        self.AboutWindow.show()
 
     def get_data(self):
         data = self.taskOpen.get_ans()

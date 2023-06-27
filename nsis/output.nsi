@@ -21,7 +21,7 @@ SetCompressor lzma
 ; 欢迎页面
 !insertmacro MUI_PAGE_WELCOME
 ; 许可协议页面
-!insertmacro MUI_PAGE_LICENSE "D:\UrgeData\Documents\Codes\Github\pk_gui\nsis\licence.txt"
+!insertmacro MUI_PAGE_LICENSE "D:\UrgeData\Documents\Codes\Github\pk_gui\about\licence.txt"
 ; 安装目录选择页面
 !insertmacro MUI_PAGE_DIRECTORY
 ; 安装过程页面
