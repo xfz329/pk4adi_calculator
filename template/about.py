@@ -97,6 +97,11 @@ class Template:
 </div>
 <p class = strong>PK4ADI计算器 更新日志</p>
 <br>
+<p class = italic>0.1.3.d released on 2022.07.09</p>
+<p class = normal>基于PK4ADI 0.1.3</p>
+<p class = normal>调整了分析窗口的默认大小，增加了窗口最大化功能</p>
+<p class = normal>为分析窗口的变量设置增加了复选功能</p>
+<br>
 <p class = italic>0.1.3.c released on 2022.06.27</p>
 <p class = normal>基于PK4ADI 0.1.3</p>
 <p class = normal>软件UI设计优化，完善了相关帮助功能</p>

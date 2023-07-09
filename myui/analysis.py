@@ -42,9 +42,11 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
         self.list_model_all = QStringListModel()
         self.listView_all.setModel(self.list_model_all)
+        self.listView_all.setSelectionMode(QtWidgets.QAbstractItemView.ExtendedSelection)
 
         self.list_model_x = QStringListModel()
         self.listView_x.setModel(self.list_model_x)
+        self.listView_x.setSelectionMode(QtWidgets.QAbstractItemView.ExtendedSelection)
 
         self.list_model_y = QStringListModel()
         self.listView_y.setModel(self.list_model_y)
@@ -260,15 +262,16 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
     def exchange_selected_list(self, start, end):
         selected = start.selectedIndexes()
-        for i in selected:
-            num = i.row()
-            temp = start.model().stringList()
-            line = temp[num]
-            del (temp[num])
-            start.model().setStringList(temp)
-            temp = end.model().stringList()
-            temp.append(line)
-            end.model().setStringList(temp)
+        idx = [ x.row() for x in selected ]
+        idx.sort(reverse= True)
+        ts = start.model().stringList()
+        te = end.model().stringList()
+        for num in idx :
+            line = ts[num]
+            del (ts[num])
+            te.append(line)
+        start.model().setStringList(ts)
+        end.model().setStringList(te)
 
     def exchange_all_list(self, start, end):
         temp = end.model().stringList()
@@ -305,7 +308,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
     def clicked_button_y(self):
         if self.add2y:
-            if len(self.listView_y.model().stringList()) == 0:
+            if len(self.listView_y.model().stringList()) == 0 and len(self.listView_all.selectedIndexes()) == 1:
                 self.exchange_selected_list(self.listView_all, self.listView_y)
                 self.log.debug("数据中以下列已被设为独立变量")
                 self.log.debug(self.show_list_names(self.listView_y))
