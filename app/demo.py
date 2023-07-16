@@ -16,6 +16,7 @@ from qfluentwidgets import FluentTranslator
 
 from app.common.config import cfg
 from app.view.main_window import MainWindow
+import app.globalvar.vars as gl
 
 
 # enable dpi scale
@@ -37,10 +38,12 @@ app.setAttribute(Qt.AA_DontCreateNativeWidgetSiblings)
 locale = cfg.get(cfg.language).value
 translator = FluentTranslator(locale)
 galleryTranslator = QTranslator()
-galleryTranslator.load(locale, "gallery", ".", ":/gallery/i18n")
+galleryTranslator.load(locale, "app", ".", ":/gallery/i18n")
 
 app.installTranslator(translator)
 app.installTranslator(galleryTranslator)
+
+gl.init_()
 
 # create main window
 w = MainWindow()

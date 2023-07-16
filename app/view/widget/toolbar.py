@@ -6,8 +6,7 @@
 @License :   (C)Copyright 2004-2020, Zhejiang University
 """
 
-from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QHBoxLayout
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout
 from PyQt5.QtCore import Qt, pyqtSignal, QUrl, QStandardPaths
 
 from qfluentwidgets import (isDarkTheme, Theme, TitleLabel, CaptionLabel)

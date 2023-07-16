@@ -8,18 +8,8 @@ from qfluentwidgets import FluentIcon as FIF
 
 from .gallery_interface import GalleryInterface
 from .home_interface import HomeInterface
-# from .basic_input_interface import BasicInputInterface
-# from .date_time_interface import DateTimeInterface
-# from .dialog_interface import DialogInterface
-# from .layout_interface import LayoutInterface
-# from .material_interface import MaterialInterface
-# from .menu_interface import MenuInterface
-# from .navigation_view_interface import NavigationViewInterface
-# from .scroll_interface import ScrollInterface
-# from .status_info_interface import StatusInfoInterface
 from .setting_interface import SettingInterface
-# from .text_interface import TextInterface
-from .new_data_interface import DataInterface
+from .data_interface import DataInterface
 from .operate_interface import OperateInterface
 # from ..common.config import SUPPORT_URL
 from ..common.icon import Icon
