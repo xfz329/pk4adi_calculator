@@ -38,6 +38,7 @@ class MainWindow(FluentWindow):
         self.splashScreen.finish()
 
     def initLayout(self):
+        self.dataInterface.toolBar.newDataReadSig.connect(self.operateInterface.updateList)
         # signalBus.switchToSampleCard.connect(self.switchToSample)
         # signalBus.supportSignal.connect(self.onSupport)
         pass

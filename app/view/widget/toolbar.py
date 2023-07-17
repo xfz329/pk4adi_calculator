@@ -9,7 +9,7 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout
 from PyQt5.QtCore import Qt, pyqtSignal, QUrl, QStandardPaths
 
-from qfluentwidgets import (isDarkTheme, Theme, TitleLabel, CaptionLabel)
+from qfluentwidgets import (isDarkTheme, Theme, TitleLabel, CaptionLabel, InfoBar, InfoBarPosition )
 from ...common.config import cfg
 
 
@@ -41,3 +41,14 @@ class ToolBar(QWidget):
     def toggleTheme(self):
         theme = Theme.LIGHT if isDarkTheme() else Theme.DARK
         cfg.set(cfg.themeMode, theme)
+
+    def createTopRightInfoBar(self, info_title, info_content, func = InfoBar.success):
+        func(
+            title= info_title,
+            content=info_content,
+            orient=Qt.Horizontal,
+            isClosable=True,
+            position=InfoBarPosition.TOP_RIGHT,
+            duration=2000,
+            parent=self
+        )

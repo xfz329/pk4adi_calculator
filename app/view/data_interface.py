@@ -24,6 +24,7 @@ class DataInterface(QWidget):
         self.table = TableWidget(self)
 
         self.__initWidget()
+        self.__initTable()
 
     def __initWidget(self):
         self.gridLayout.addWidget(self.toolBar, 0, 0, 1, 1)
@@ -31,6 +32,7 @@ class DataInterface(QWidget):
         StyleSheet.GALLERY_INTERFACE.apply(self)
         self.toolBar.newDataReadSig.connect(self.updateData)
 
+    def __initTable(self):
         self.table.verticalHeader().hide()
         cls = [chr(x) for x in range(ord('A'), ord('Z') + 1)]
         df = pd.DataFrame(columns=cls, index=range(1, 4))
@@ -39,15 +41,8 @@ class DataInterface(QWidget):
 
 
     def updateData(self):
-        data = get_value("data")
-        print(type(data))
-        if isinstance(data, dict):
-            current = get_value("current_workbook_num")
-            workbooks = get_value("workbooks")
-            sheet = workbooks[current]
-            self.updateDataFrame(data.get(sheet))
-        if isinstance(data, pd.DataFrame):
-            self.updateDataFrame(data)
+        df = get_value("current_workbook")
+        self.updateDataFrame(df)
 
     def updateDataFrame(self, df):
         row_num, col_num = df.shape

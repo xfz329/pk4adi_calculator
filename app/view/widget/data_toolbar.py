@@ -8,7 +8,7 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import  QFileDialog
 
-from qfluentwidgets import (ScrollArea, PushButton, ToolButton, FluentIcon, PrimaryPushButton, SplitPushButton, PillPushButton, InfoBar, InfoBarPosition,
+from qfluentwidgets import (ScrollArea, PushButton, ToolButton, FluentIcon, PrimaryPushButton, SplitPushButton, PillPushButton,
                             isDarkTheme, IconWidget, Theme, ToolTipFilter, TitleLabel, CaptionLabel,
                             StrongBodyLabel, BodyLabel)
 
@@ -80,7 +80,6 @@ class DataToolBar(ToolBar):
         self.open(file)
 
     def open(self,file):
-        df = None
         if file is None:
             # self.log.error("打开文件名为空！")
             return None
@@ -93,22 +92,28 @@ class DataToolBar(ToolBar):
         else:
             # self.log.warning("该文件类型暂不支持 "+file)
             return None
-        print("read ok")
-        set_value("data", df)
         if isinstance(df, dict) :
-            set_value("workbooks", list(df.keys()))
-            set_value("current_workbook_num", 0)
             n = len(list(df.keys()))
+            set_value("workbooks", df)
+            set_value("workbook_names", list(df.keys()))
             set_value("total_workbook_num", n)
+            self.toX(0)
             if  n > 1 :
-                self.toX(0)
                 self.__setPrimaryPushButtonVisible(True)
-        self.newDataReadSig.emit()
+        elif isinstance(df, pd.DataFrame):
+            set_value("current_workbook", df)
+            self.newDataReadSig.emit()
+        else:
+            return
 
     def toX(self, x):
-        set_value("current_workbook_num", x)
         workbooks = get_value("workbooks")
-        text = "当前打开的工作簿为 " + workbooks[x] + " ( " + str(x + 1) +" / " + str(get_value("total_workbook_num")) + " )"
+        workbook_names = get_value("workbook_names")
+        name = workbook_names[x]
+        set_value("current_workbook_num", x)
+        set_value("current_workbook_name", name)
+        set_value("current_workbook", workbooks.get(name))
+        text = "当前打开的工作簿为 " + name + " ( " + str(x + 1) +" / " + str(get_value("total_workbook_num")) + " )"
         self.textButton.setText(text)
         self.newDataReadSig.emit()
 
@@ -126,17 +131,8 @@ class DataToolBar(ToolBar):
         current = get_value("current_workbook_num")
         current = (current + total - 1) % total
         self.toX(current)
+        self.createTopRightInfoBar("成功","就是简简单单的一次运行成功")
 
-    def createTopRightInfoBar(self):
-        InfoBar.success(
-            title=self.tr('Lesson 3'),
-            content=self.tr("Believe in the spin, just keep believing!"),
-            orient=Qt.Horizontal,
-            isClosable=True,
-            position=InfoBarPosition.TOP_RIGHT,
-            duration=2000,
-            parent=self
-        )
 
 
 
