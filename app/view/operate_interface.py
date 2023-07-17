@@ -12,7 +12,9 @@ from ..common.style_sheet import StyleSheet
 from PyQt5.QtWidgets import QTableWidgetItem, QSizePolicy, QListWidgetItem, QAbstractItemView
 from qfluentwidgets import TableWidget, ListWidget, PrimaryPushButton, PillPushButton, FluentIcon
 
-from ..globalvar.vars import get_value
+from ..globalvar.vars import set_value, get_value
+from ..thread.pkcthread import PKCThread
+from ..thread.pkthread import PKThread
 
 class OperateInterface(QWidget):
     """ View interface """
@@ -42,12 +44,12 @@ class OperateInterface(QWidget):
         self.variables_y = PillPushButton("独立变量", self, FluentIcon.TAG)
 
         self.list_all = []
-        self.list_x = []
-        self.list_y = []
-        self.list_empty = []
 
         self.add_to_x = True
         self.add_to_y = True
+
+        self.pkThread = PKThread()
+        self.pkcThread = PKCThread()
 
         self.__initWidget()
         self.__initListWidgets()
@@ -106,6 +108,14 @@ class OperateInterface(QWidget):
         self.add_to_x = True
         self.add_to_y = True
 
+    def enbaleAllButtons(self, enabled):
+        self.pushButton_all.setEnabled(enabled)
+        self.pushButton_x.setEnabled(enabled)
+        self.pushButton_y.setEnabled(enabled)
+        # self.toolBar.compareButton.setEnabled(enabled)
+        # self.toolBar.calcaulateButton.setEnabled(enabled)
+        self.toolBar.resetButton.setEnabled(enabled)
+
     def __initConnects(self):
         self.toolBar.openDirButton.clicked.connect(self.openOutputDir)
         self.toolBar.resetButton.clicked.connect(self.resetLists)
@@ -115,10 +125,14 @@ class OperateInterface(QWidget):
         self.pushButton_x.clicked.connect(self.clicked_button_x)
         self.pushButton_y.clicked.connect(self.clicked_button_y)
         self.pushButton_all.clicked.connect(self.clicked_button_all)
+        self.toolBar.calcaulateButton.clicked.connect(self.calculate)
+        self.toolBar.compareButton.clicked.connect(self.compare)
+        self.pkThread.finished_signal.connect(self.compare_finished)
+        self.pkcThread.finished_signal.connect(self.compare_finished)
 
     def resetLists(self):
-        self.setList(self.listWidget_x, self.list_x)
-        self.setList(self.listWidget_y, self.list_y)
+        self.setList(self.listWidget_x, [])
+        self.setList(self.listWidget_y, [])
         self.setList(self.listWidget_all, self.list_all)
 
     def setList(self, list_widget, list_content):
@@ -133,6 +147,7 @@ class OperateInterface(QWidget):
         self.list_all = df.columns
         self.resetLists()
         self.__initButtons()
+        # set_value("")
 
     def openOutputDir(self):
         # os.startfile(self.out_dir)
@@ -184,6 +199,39 @@ class OperateInterface(QWidget):
         else:
             self.remove_all(self.listWidget_x, self.listWidget_all)
 
+    def collect_xy(self):
+        x = []
+        y = []
+        n = self.listWidget_x.count()
+        for i in range(n):
+            x.append(self.listWidget_x.item(i).text())
+
+        n = self.listWidget_y.count()
+        for i in range(n):
+            x.append(self.listWidget_y.item(i).text())
+
+        set_value("x", x)
+        set_value("y", y)
+
+    def calculate(self):
+        self.toolBar.showProgressBar(True)
+        self.enbaleAllButtons(False)
+        self.collect_xy()
+        self.pkThread.start()
+
+    def compare(self):
+        self.toolBar.showProgressBar(True)
+        self.enbaleAllButtons(False)
+        self.collect_xy()
+        self.pkcThread.start()
+
+    def calculate_finished(self):
+        self.toolBar.showProgressBar(False)
+        self.enbaleAllButtons(True)
+
+    def compare_finished(self):
+        self.toolBar.showProgressBar(False)
+        self.enbaleAllButtons(True)
 
 
 

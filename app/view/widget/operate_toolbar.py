@@ -9,8 +9,8 @@ from PyQt5.QtCore import Qt, pyqtSignal, QUrl, QEvent
 from PyQt5.QtGui import QDesktopServices, QPainter, QPen, QColor
 from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QHBoxLayout, QFrame
 
-from qfluentwidgets import (ScrollArea, PushButton, ToolButton, FluentIcon, PrimaryPushButton, SplitPushButton, SwitchButton,
-                            isDarkTheme, IconWidget, Theme, ToolTipFilter, TitleLabel, CaptionLabel,
+from qfluentwidgets import (ScrollArea, PushButton, ToolButton, FluentIcon, PrimaryPushButton, SplitPushButton, SwitchButton, PillPushButton,
+                            isDarkTheme, IconWidget, Theme, ToolTipFilter, TitleLabel, CaptionLabel, IndeterminateProgressBar,
                             StrongBodyLabel, BodyLabel)
 
 from .toolbar import ToolBar
@@ -29,7 +29,11 @@ class OperateToolBar(ToolBar):
         self.openDirButton = PrimaryPushButton("打开输出文件夹", self)
         self.separator2 = SeparatorWidget(self)
         self.commentSwitchButton = SwitchButton("记录关")
+        self.separator3 = SeparatorWidget(self)
+        self.textButton = PillPushButton("计算进行中……", self, FluentIcon.TAG)
+        self.progressbar = IndeterminateProgressBar(self)
         self.themeButton = ToolButton(FluentIcon.CONSTRACT, self)
+
 
         self.__initButtonLayout()
 
@@ -44,6 +48,9 @@ class OperateToolBar(ToolBar):
         self.buttonLayout.addWidget(self.openDirButton, 0, Qt.AlignLeft)
         self.buttonLayout.addWidget(self.separator2, 0, Qt.AlignLeft)
         self.buttonLayout.addWidget(self.commentSwitchButton, 0, Qt.AlignLeft)
+        self.buttonLayout.addWidget(self.separator3, 0, Qt.AlignLeft)
+        self.buttonLayout.addWidget(self.textButton, 0, Qt.AlignLeft)
+        self.buttonLayout.addWidget(self.progressbar, 0, Qt.AlignLeft)
         self.buttonLayout.addStretch(1)
         self.buttonLayout.addWidget(self.themeButton, 0, Qt.AlignRight)
         self.buttonLayout.setAlignment(Qt.AlignVCenter | Qt.AlignLeft)
@@ -51,6 +58,8 @@ class OperateToolBar(ToolBar):
         self.commentSwitchButton.checkedChanged.connect(self.onSwitchCheckedChanged)
         self.themeButton.installEventFilter(ToolTipFilter(self.themeButton))
         self.themeButton.clicked.connect(self.toggleTheme)
+        self.textButton.setCheckable(False)
+        self.showProgressBar(False)
 
 
     def onSwitchCheckedChanged(self, isChecked):
@@ -58,3 +67,12 @@ class OperateToolBar(ToolBar):
             self.commentSwitchButton.setText("记录开")
         else:
             self.commentSwitchButton.setText("记录关")
+
+    def showProgressBar(self, visiable):
+        self.separator3.setVisible(visiable)
+        self.progressbar.setVisible(visiable)
+        self.textButton.setVisible(visiable)
+        if visiable:
+            self.progressbar.resume()
+        else:
+            self.progressbar.pause()

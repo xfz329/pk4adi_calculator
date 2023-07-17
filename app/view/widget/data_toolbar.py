@@ -15,7 +15,7 @@ from qfluentwidgets import (ScrollArea, PushButton, ToolButton, FluentIcon, Prim
 from .toolbar import ToolBar
 from .separator_widget import SeparatorWidget
 from ...globalvar.vars import set_value, get_value
-
+from ...thread.openthread import OpenThread
 import pandas as pd
 
 class DataToolBar(ToolBar):
@@ -36,6 +36,8 @@ class DataToolBar(ToolBar):
         self.__initButtonLayout()
         self.__setPrimaryPushButtonVisible()
 
+        self.openThread = OpenThread()
+        self.openThread.finished_signal.connect(self.loadData)
 
     def __initButtonLayout(self):
         self.buttonLayout.setSpacing(4)
@@ -77,21 +79,11 @@ class DataToolBar(ToolBar):
             return None
         # self.log.info("当前选中的需要打开文件为 " + file)
         print("当前选中的需要打开文件为 " + file)
-        self.open(file)
+        self.openThread.set_file(file)
+        self.openThread.start()
 
-    def open(self,file):
-        if file is None:
-            # self.log.error("打开文件名为空！")
-            return None
-        if file.endswith(".csv"):
-            df = pd.read_csv(file)
-            # self.log.info("csv文件读取完成 "+file)
-        elif file.endswith(".xls") or file.endswith(".xlsx"):
-            df = pd.read_excel(file, None)
-            # self.log.info("xls/xlsx文件读取完成 "+file)
-        else:
-            # self.log.warning("该文件类型暂不支持 "+file)
-            return None
+    def loadData(self):
+        df = self.openThread.get_ans()
         if isinstance(df, dict) :
             n = len(list(df.keys()))
             set_value("workbooks", df)
@@ -132,10 +124,3 @@ class DataToolBar(ToolBar):
         current = (current + total - 1) % total
         self.toX(current)
         self.createTopRightInfoBar("成功","就是简简单单的一次运行成功")
-
-
-
-
-
-
-
