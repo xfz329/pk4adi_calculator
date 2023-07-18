@@ -4,16 +4,17 @@ from .frame.frame import Frame
 from .widget.operate_toolbar import OperateToolBar
 
 import pandas as pd
+import os
 
 from PyQt5.QtWidgets import QWidget, QGridLayout, QVBoxLayout
 
 from .widget.data_toolbar import DataToolBar
 from ..common.style_sheet import StyleSheet
+from ..common.config import cfg
 from PyQt5.QtWidgets import QTableWidgetItem, QSizePolicy, QListWidgetItem, QAbstractItemView
-from qfluentwidgets import TableWidget, ListWidget, PrimaryPushButton, PillPushButton, FluentIcon
+from qfluentwidgets import TableWidget, ListWidget, PrimaryPushButton, PillPushButton, FluentIcon, InfoBar
 
 from ..globalvar.vars import set_value, get_value
-from ..thread.pkcthread import PKCThread
 from ..thread.pkthread import PKThread
 
 class OperateInterface(QWidget):
@@ -49,7 +50,6 @@ class OperateInterface(QWidget):
         self.add_to_y = True
 
         self.pkThread = PKThread()
-        self.pkcThread = PKCThread()
 
         self.__initWidget()
         self.__initListWidgets()
@@ -112,8 +112,8 @@ class OperateInterface(QWidget):
         self.pushButton_all.setEnabled(enabled)
         self.pushButton_x.setEnabled(enabled)
         self.pushButton_y.setEnabled(enabled)
-        # self.toolBar.compareButton.setEnabled(enabled)
-        # self.toolBar.calcaulateButton.setEnabled(enabled)
+        self.toolBar.compareButton.setEnabled(enabled)
+        self.toolBar.calcaulateButton.setEnabled(enabled)
         self.toolBar.resetButton.setEnabled(enabled)
 
     def __initConnects(self):
@@ -127,8 +127,9 @@ class OperateInterface(QWidget):
         self.pushButton_all.clicked.connect(self.clicked_button_all)
         self.toolBar.calcaulateButton.clicked.connect(self.calculate)
         self.toolBar.compareButton.clicked.connect(self.compare)
-        self.pkThread.finished_signal.connect(self.compare_finished)
-        self.pkcThread.finished_signal.connect(self.compare_finished)
+        self.pkThread.finished_signal.connect(self.calculate_compare_finished)
+        self.pkThread.error_signal.connect(self.error_occurred)
+        self.pkThread.warn_signal.connect(self.warn_occurred)
 
     def resetLists(self):
         self.setList(self.listWidget_x, [])
@@ -147,12 +148,19 @@ class OperateInterface(QWidget):
         self.list_all = df.columns
         self.resetLists()
         self.__initButtons()
-        # set_value("")
+
+        set_value("pk", None)
+        set_value("pk_dict", {})
+        set_value("pk_name_dict", {})
+        set_value("pk_n", 0)
+
+        set_value("pks", None)
+        set_value("pks_dict", {})
+        set_value("pks_name_dict", {})
+        set_value("pks_n", 0)
 
     def openOutputDir(self):
-        # os.startfile(self.out_dir)
-        print("open")
-        pass
+        os.startfile(cfg.get(cfg.outputFolder))
 
     def remove_from_x(self):
         self.pushButton_x.setText("移除")
@@ -208,31 +216,43 @@ class OperateInterface(QWidget):
 
         n = self.listWidget_y.count()
         for i in range(n):
-            x.append(self.listWidget_y.item(i).text())
+            y.append(self.listWidget_y.item(i).text())
 
-        set_value("x", x)
-        set_value("y", y)
+        set_value("x_names", x)
+        set_value("y_names", y)
+        set_value("output_dir", cfg.get(cfg.outputFolder))
 
     def calculate(self):
         self.toolBar.showProgressBar(True)
         self.enbaleAllButtons(False)
         self.collect_xy()
+        self.pkThread.set_work_type("PK")
         self.pkThread.start()
 
     def compare(self):
         self.toolBar.showProgressBar(True)
         self.enbaleAllButtons(False)
         self.collect_xy()
-        self.pkcThread.start()
+        self.pkThread.set_work_type("PKC")
+        self.pkThread.start()
 
-    def calculate_finished(self):
+    def calculate_compare_finished(self):
         self.toolBar.showProgressBar(False)
         self.enbaleAllButtons(True)
+        ans = get_value("pk")
+        print(ans)
 
     def compare_finished(self):
         self.toolBar.showProgressBar(False)
         self.enbaleAllButtons(True)
 
+    def error_occurred(self, str):
+        self.toolBar.showProgressBar(False)
+        self.enbaleAllButtons(True)
+        self.toolBar.createTopRightInfoBar("Error!", str,InfoBar.error)
+
+    def warn_occurred(self, str):
+        self.toolBar.createTopRightInfoBar("Warn!", str,InfoBar.warning)
 
 
 
