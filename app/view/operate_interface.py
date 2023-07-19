@@ -11,6 +11,7 @@ from PyQt5.QtWidgets import QWidget, QGridLayout, QVBoxLayout
 from .widget.data_toolbar import DataToolBar
 from ..common.style_sheet import StyleSheet
 from ..common.config import cfg
+from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import QTableWidgetItem, QSizePolicy, QListWidgetItem, QAbstractItemView
 from qfluentwidgets import TableWidget, ListWidget, PrimaryPushButton, PillPushButton, FluentIcon, InfoBar
 
@@ -19,6 +20,8 @@ from ..thread.pkthread import PKThread
 
 class OperateInterface(QWidget):
     """ View interface """
+    calculate_started_signal = pyqtSignal(str)
+    calculate_finished_signal = pyqtSignal(str)
 
     def __init__(self, parent=None):
         super().__init__(parent=parent)
@@ -117,7 +120,6 @@ class OperateInterface(QWidget):
         self.toolBar.resetButton.setEnabled(enabled)
 
     def __initConnects(self):
-        self.toolBar.openDirButton.clicked.connect(self.openOutputDir)
         self.toolBar.resetButton.clicked.connect(self.resetLists)
         self.listWidget_all.clicked.connect(self.__initButtons)
         self.listWidget_x.clicked.connect(self.remove_from_x)
@@ -140,6 +142,8 @@ class OperateInterface(QWidget):
         while list_widget.count() > 0:
             list_widget.takeItem(0)
         for content in list_content:
+            if not isinstance(content, str):
+                content = str(content)
             list_widget.addItem(QListWidgetItem(content))
         list_widget.clearSelection()
 
@@ -158,9 +162,6 @@ class OperateInterface(QWidget):
         set_value("pks_dict", {})
         set_value("pks_name_dict", {})
         set_value("pks_n", 0)
-
-    def openOutputDir(self):
-        os.startfile(cfg.get(cfg.outputFolder))
 
     def remove_from_x(self):
         self.pushButton_x.setText("移除")
@@ -228,6 +229,7 @@ class OperateInterface(QWidget):
         self.collect_xy()
         self.pkThread.set_work_type("PK")
         self.pkThread.start()
+        self.calculate_started_signal.emit("开始计算PK值")
 
     def compare(self):
         self.toolBar.showProgressBar(True)
@@ -235,16 +237,13 @@ class OperateInterface(QWidget):
         self.collect_xy()
         self.pkThread.set_work_type("PKC")
         self.pkThread.start()
+        self.calculate_started_signal.emit("开始比较PK值")
 
     def calculate_compare_finished(self):
         self.toolBar.showProgressBar(False)
         self.enbaleAllButtons(True)
-        ans = get_value("pk")
-        print(ans)
-
-    def compare_finished(self):
-        self.toolBar.showProgressBar(False)
-        self.enbaleAllButtons(True)
+        self.toolBar.createTopRightInfoBar("Success!", "当前计算已完成，请查看详情！", InfoBar.success)
+        self.calculate_finished_signal.emit("当前打开文件 "+get_value("last_work_file"))
 
     def error_occurred(self, str):
         self.toolBar.showProgressBar(False)

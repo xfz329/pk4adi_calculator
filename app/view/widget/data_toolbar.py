@@ -8,7 +8,7 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import  QFileDialog
 
-from qfluentwidgets import (ScrollArea, PushButton, ToolButton, FluentIcon, PrimaryPushButton, SplitPushButton, PillPushButton,
+from qfluentwidgets import (ScrollArea, PushButton, ToolButton, FluentIcon, PrimaryPushButton, SplitPushButton, PillPushButton, InfoBar,
                             isDarkTheme, IconWidget, Theme, ToolTipFilter, TitleLabel, CaptionLabel,
                             StrongBodyLabel, BodyLabel)
 
@@ -59,7 +59,7 @@ class DataToolBar(ToolBar):
         self.toFirstButton.clicked.connect(self.toFirst)
         self.toNextButton.clicked.connect(self.toNext)
         self.toPreviousButton.clicked.connect(self.toPrevious)
-        self.textButton.setChecked(False)
+        self.textButton.setCheckable(False)
 
     def __setPrimaryPushButtonVisible(self, v = False):
         self.separator1.setVisible(v)
@@ -94,6 +94,7 @@ class DataToolBar(ToolBar):
                 self.__setPrimaryPushButtonVisible(True)
         elif isinstance(df, pd.DataFrame):
             set_value("current_workbook", df)
+            self.checkDataFrame()
             self.newDataReadSig.emit()
         else:
             return
@@ -105,6 +106,7 @@ class DataToolBar(ToolBar):
         set_value("current_workbook_num", x)
         set_value("current_workbook_name", name)
         set_value("current_workbook", workbooks.get(name))
+        self.checkDataFrame()
         text = "当前打开的工作簿为 " + name + " ( " + str(x + 1) +" / " + str(get_value("total_workbook_num")) + " )"
         self.textButton.setText(text)
         self.newDataReadSig.emit()
@@ -124,3 +126,16 @@ class DataToolBar(ToolBar):
         current = (current + total - 1) % total
         self.toX(current)
         self.createTopRightInfoBar("成功","就是简简单单的一次运行成功")
+
+    def checkDataFrame(self):
+        df = get_value("current_workbook")
+        col = df.columns.tolist()
+        if len(col) != len(set(col)):
+            self.createTopRightInfoBar("警告","当前工作簿中列名存在同名！这可能引发后续计算错误或程序崩溃！", InfoBar.warning, 4000)
+        not_str = False
+        for c in df.columns:
+            if not isinstance(c, str):
+                not_str = True
+        if not_str:
+            self.createTopRightInfoBar("警告", "当前工作簿中列名存在纯数字！这可能引发后续计算错误或程序崩溃！", InfoBar.warning, 4000)
+

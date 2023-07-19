@@ -16,12 +16,5 @@ class BasicThread(QThread):
         self.name = name
         self.ans = None
 
-    def do_work(self):
-        self.start()
-        self.finished_signal.emit()
-
-    def run(self):
-        pass
-
     def get_ans(self):
         return self.ans

@@ -11,6 +11,7 @@ from .home_interface import HomeInterface
 from .setting_interface import SettingInterface
 from .data_interface import DataInterface
 from .operate_interface import OperateInterface
+from .output_interface import  OutputInterface
 # from ..common.config import SUPPORT_URL
 from ..common.icon import Icon
 # from ..common.signal_bus import signalBus
@@ -29,6 +30,7 @@ class MainWindow(FluentWindow):
         self.settingInterface = SettingInterface(self)
         self.dataInterface = DataInterface(self)
         self.operateInterface = OperateInterface(self)
+        self.outputInterface = OutputInterface(self)
 
         # initialize layout
         self.initLayout()
@@ -39,6 +41,12 @@ class MainWindow(FluentWindow):
 
     def initLayout(self):
         self.dataInterface.toolBar.newDataReadSig.connect(self.operateInterface.updateList)
+        self.operateInterface.pkThread.finished_signal.connect(self.outputInterface.updateData)
+        self.operateInterface.pkThread.finished_signal.connect(self.outputInterface.toolBar.enable_buttons)
+        self.operateInterface.calculate_started_signal.connect(self.outputInterface.toolBar.changeText)
+        self.operateInterface.calculate_started_signal.connect(self.outputInterface.initTable)
+        self.operateInterface.calculate_finished_signal.connect(self.outputInterface.toolBar.changeText)
+        self.operateInterface.calculate_finished_signal.connect(self.outputInterface.toolBar.showInfoBar)
         # signalBus.switchToSampleCard.connect(self.switchToSample)
         # signalBus.supportSignal.connect(self.onSupport)
         pass
@@ -53,6 +61,7 @@ class MainWindow(FluentWindow):
 
         self.addSubInterface(self.dataInterface, FIF.DOCUMENT, t.view, pos)
         self.addSubInterface(self.operateInterface, FIF.CALENDAR, t.view, pos)
+        self.addSubInterface(self.outputInterface, FIF.VIEW, t.view, pos)
 
         # add custom widget to bottom
         self.navigationInterface.addWidget(

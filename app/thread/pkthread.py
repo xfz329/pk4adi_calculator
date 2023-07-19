@@ -66,12 +66,12 @@ class PKThread(BasicThread):
         csv_name_ansi = os.path.join(full_path, pre + "_ansi.csv")
         xlsx_name = os.path.join(full_path, pre + ".xlsx")
 
-        df = df.round(3)
         df.to_csv(csv_name_utf8)
         df.to_csv(csv_name_ansi, encoding="ansi")
         df.to_excel(xlsx_name)
 
-        set_value("last_write_dir", full_path)
+        set_value("last_work_file", xlsx_name)
+        set_value("last_work_dir", full_path)
 
     def do_calculate_pk(self):
         x_names = get_value("x_names")
@@ -96,6 +96,9 @@ class PKThread(BasicThread):
                 df.loc[df.shape[0]] = new_row
                 self.warn_signal.emit(ans)
 
+        df = df.applymap(self.myround)
+
+        set_value("last_work", "pk")
         set_value("pk_dict", self.pk_dict)
         set_value("pk_name_dict", self.pk_name_dict)
         set_value("pk_n", self.pk_n)
@@ -144,6 +147,9 @@ class PKThread(BasicThread):
                                    "", "", "", "", "", "", e1, e2]
                         df.loc[df.shape[0]] = new_row
 
+        df = df.applymap(self.myround)
+
+        set_value("last_work", "pks")
         set_value("pk_dict", self.pk_dict)
         set_value("pk_name_dict", self.pk_name_dict)
         set_value("pk_n", self.pk_n)
@@ -210,6 +216,10 @@ class PKThread(BasicThread):
             return warn_str
         return calculate_pk(x, y, False)
 
+    def myround(self, n ):
+        if isinstance(n, float):
+            return round(n,3)
+        return n
 
 
 

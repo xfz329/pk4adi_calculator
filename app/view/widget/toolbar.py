@@ -42,13 +42,13 @@ class ToolBar(QWidget):
         theme = Theme.LIGHT if isDarkTheme() else Theme.DARK
         cfg.set(cfg.themeMode, theme)
 
-    def createTopRightInfoBar(self, info_title, info_content, func = InfoBar.success):
+    def createTopRightInfoBar(self, info_title, info_content, func = InfoBar.success, duration=2000):
         func(
             title= info_title,
             content=info_content,
             orient=Qt.Horizontal,
             isClosable=True,
             position=InfoBarPosition.TOP_RIGHT,
-            duration=2000,
+            duration=duration,
             parent=self
         )
