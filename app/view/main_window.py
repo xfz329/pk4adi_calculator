@@ -12,9 +12,7 @@ from .setting_interface import SettingInterface
 from .data_interface import DataInterface
 from .operate_interface import OperateInterface
 from .output_interface import  OutputInterface
-# from ..common.config import SUPPORT_URL
 from ..common.signal_bus import signalBus
-from ..common import resource
 
 
 class MainWindow(FluentWindow):
@@ -46,7 +44,7 @@ class MainWindow(FluentWindow):
         self.operateInterface.calculate_finished_signal.connect(self.outputInterface.toolBar.changeText)
         self.operateInterface.calculate_finished_signal.connect(self.outputInterface.toolBar.showInfoBar)
         signalBus.switchToSampleCard.connect(self.switchToSample)
-        # signalBus.supportSignal.connect(self.onSupport)
+        signalBus.supportSignal.connect(self.onSupport)
         pass
 
     def initNavigation(self):
@@ -63,7 +61,7 @@ class MainWindow(FluentWindow):
         # add custom widget to bottom
         self.navigationInterface.addWidget(
             routeKey='avatar',
-            widget=NavigationAvatarWidget('Jiang Feng', ':/gallery/images/shoko.png'),
+            widget=NavigationAvatarWidget('Jiang Feng', './resource/images/shoko.png'),
             onClick=self.onSupport,
             position=NavigationItemPosition.BOTTOM
         )
@@ -74,7 +72,7 @@ class MainWindow(FluentWindow):
         self.resize(960, 780)
         self.setMinimumWidth(760)
         self.setWindowIcon(QIcon('./resource/images/logo.png'))
-        self.setWindowTitle('PK4ADI calculator')
+        self.setWindowTitle('PK4ADI Calculator')
 
         # create splash screen
         self.splashScreen = SplashScreen(self.windowIcon(), self)
