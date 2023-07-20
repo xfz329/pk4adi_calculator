@@ -3,10 +3,7 @@ from PyQt5.QtCore import Qt, pyqtSignal, QUrl, QEvent
 from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QHBoxLayout, QFrame
 
 from qfluentwidgets import ScrollArea
-from ..common.config import cfg, FEEDBACK_URL, HELP_URL, EXAMPLE_URL
-from ..common.icon import Icon
 from ..common.style_sheet import StyleSheet
-from ..common.signal_bus import signalBus
 
 from .widget.example_card import ExampleCard
 from .widget.toolbar import ToolBar

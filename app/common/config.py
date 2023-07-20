@@ -45,14 +45,11 @@ class Config(QConfig):
 
 YEAR = 2023
 AUTHOR = "Jiang Feng"
-VERSION = __version__
-HELP_URL = "https://pyqt-fluent-widgets.readthedocs.io/zh_CN/latest"
-REPO_URL = "https://github.com/zhiyiYo/PyQt-Fluent-Widgets"
-EXAMPLE_URL = "https://github.com/zhiyiYo/PyQt-Fluent-Widgets/tree/master/examples"
-FEEDBACK_URL = "https://github.com/zhiyiYo/PyQt-Fluent-Widgets/issues"
-RELEASE_URL = "https://github.com/zhiyiYo/PyQt-Fluent-Widgets/releases/latest"
-SUPPORT_URL = "https://afdian.net/a/zhiyiYo"
-
+VERSION = "0.1.4"
+HELP_URL = "https://xfz329-pk4adi-tutorial.readthedocs.io/en/latest/"
+REPO_URL = "https://github.com/xfz329/pk4adi_gui"
+FEEDBACK_URL = "https://github.com/xfz329/pk4adi_gui/issues"
+RELEASE_URL = "https://github.com/xfz329/pk4adi_gui/releases"
 
 cfg = Config()
 qconfig.load('config/config.json', cfg)

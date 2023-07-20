@@ -13,9 +13,7 @@ from .data_interface import DataInterface
 from .operate_interface import OperateInterface
 from .output_interface import  OutputInterface
 # from ..common.config import SUPPORT_URL
-from ..common.icon import Icon
-# from ..common.signal_bus import signalBus
-from ..common.translator import Translator
+from ..common.signal_bus import signalBus
 from ..common import resource
 
 
@@ -47,21 +45,20 @@ class MainWindow(FluentWindow):
         self.operateInterface.calculate_started_signal.connect(self.outputInterface.initTable)
         self.operateInterface.calculate_finished_signal.connect(self.outputInterface.toolBar.changeText)
         self.operateInterface.calculate_finished_signal.connect(self.outputInterface.toolBar.showInfoBar)
-        # signalBus.switchToSampleCard.connect(self.switchToSample)
+        signalBus.switchToSampleCard.connect(self.switchToSample)
         # signalBus.supportSignal.connect(self.onSupport)
         pass
 
     def initNavigation(self):
         # add navigation items
-        t = Translator()
         self.addSubInterface(self.homeInterface, FIF.HOME, self.tr('Home'))
         self.navigationInterface.addSeparator()
         #
         pos = NavigationItemPosition.SCROLL
 
-        self.addSubInterface(self.dataInterface, FIF.DOCUMENT, t.view, pos)
-        self.addSubInterface(self.operateInterface, FIF.CALENDAR, t.view, pos)
-        self.addSubInterface(self.outputInterface, FIF.VIEW, t.view, pos)
+        self.addSubInterface(self.dataInterface, FIF.DOCUMENT, "Data", pos)
+        self.addSubInterface(self.operateInterface, FIF.CALENDAR, "Operate", pos)
+        self.addSubInterface(self.outputInterface, FIF.VIEW, "Output", pos)
 
         # add custom widget to bottom
         self.navigationInterface.addWidget(
@@ -76,8 +73,8 @@ class MainWindow(FluentWindow):
     def initWindow(self):
         self.resize(960, 780)
         self.setMinimumWidth(760)
-        self.setWindowIcon(QIcon(':/gallery/images/logo.png'))
-        self.setWindowTitle('PyQt-Fluent-Widgets')
+        self.setWindowIcon(QIcon('./resource/images/logo.png'))
+        self.setWindowTitle('PK4ADI calculator')
 
         # create splash screen
         self.splashScreen = SplashScreen(self.windowIcon(), self)
@@ -104,8 +101,7 @@ class MainWindow(FluentWindow):
 
     def switchToSample(self, routeKey, index):
         """ switch to sample """
-        interfaces = self.findChildren(GalleryInterface)
+        interfaces = [self.dataInterface, self.operateInterface, self.outputInterface]
         for w in interfaces:
             if w.objectName() == routeKey:
                 self.stackedWidget.setCurrentWidget(w, False)
-                w.scrollToCard(index)

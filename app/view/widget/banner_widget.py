@@ -10,7 +10,7 @@ from PyQt5.QtGui import QPixmap, QPainter, QColor, QBrush, QPainterPath
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel
 
 from qfluentwidgets import ScrollArea, isDarkTheme, FluentIcon
-from ...common.config import cfg, HELP_URL, REPO_URL, EXAMPLE_URL, FEEDBACK_URL
+from ...common.config import cfg, HELP_URL, REPO_URL, RELEASE_URL, FEEDBACK_URL
 from ...components.link_card import LinkCardView
 
 
@@ -22,8 +22,8 @@ class BannerWidget(QWidget):
         self.setFixedHeight(336)
 
         self.vBoxLayout = QVBoxLayout(self)
-        self.galleryLabel = QLabel('Fluent Gallery', self)
-        self.banner = QPixmap(':/gallery/images/header1.png')
+        self.galleryLabel = QLabel('PK4ADI Calculator', self)
+        self.banner = QPixmap('./resource/images/header.png')
         self.linkCardView = LinkCardView(self)
 
         self.galleryLabel.setObjectName('galleryLabel')
@@ -35,9 +35,9 @@ class BannerWidget(QWidget):
         self.vBoxLayout.setAlignment(Qt.AlignLeft | Qt.AlignTop)
 
         self.linkCardView.addCard(
-            ':/gallery/images/logo.png',
+            './resource/images/logo.png',
             self.tr('Getting started'),
-            self.tr('An overview of app development options and samples.'),
+            self.tr('An overview of pk4adi calculator.'),
             HELP_URL
         )
 
@@ -45,22 +45,22 @@ class BannerWidget(QWidget):
             FluentIcon.GITHUB,
             self.tr('GitHub repo'),
             self.tr(
-                'The latest fluent design controls and styles for your applications.'),
+                'The repository of PK4ADI calculator on GitHub.'),
             REPO_URL
         )
 
         self.linkCardView.addCard(
             FluentIcon.CODE,
-            self.tr('Code samples'),
+            self.tr('Keep new'),
             self.tr(
-                'Find samples that demonstrate specific tasks, features and APIs.'),
-            EXAMPLE_URL
+                'Get the latest version of PK4ADI calculator.'),
+            RELEASE_URL
         )
 
         self.linkCardView.addCard(
             FluentIcon.FEEDBACK,
             self.tr('Send feedback'),
-            self.tr('Help us improve PyQt-Fluent-Widgets by providing feedback.'),
+            self.tr('Help us improve PK4ADI calculator by providing feedback.'),
             FEEDBACK_URL
         )
 

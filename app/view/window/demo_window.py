@@ -9,7 +9,6 @@ import time
 from os.path import join
 from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtCore import pyqtSignal
-from PyQt5.QtGui import QTextBlockFormat
 from qfluentwidgets import PrimaryPushButton
 from qframelesswindow import FramelessWindow
 from ...globalvar.vars import get_value
