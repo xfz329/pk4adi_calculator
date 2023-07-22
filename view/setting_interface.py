@@ -11,7 +11,7 @@ from qfluentwidgets import (SettingCardGroup, SwitchSettingCard, FolderListSetti
 from qfluentwidgets import FluentIcon as FIF
 from qfluentwidgets import InfoBar
 
-from common.config import cfg, HELP_URL, FEEDBACK_URL, UI_URL, KERNEL_URL, SCHOOL, AUTHOR, VERSION, YEAR
+from common.config import cfg, HELP_URL, FEEDBACK_URL, UI_URL, KERNEL_URL, VERSION, YEAR
 from common.style_sheet import StyleSheet
 
 
@@ -125,20 +125,20 @@ class SettingInterface(ScrollArea):
         self.licenseCard = PrimaryPushSettingCard(
             self.tr('License'),
             FIF.DICTIONARY,
-            self.tr('License'),
+            self.tr('Show license'),
             self.tr('MIT'),
             self.aboutGroup
         )
         self.authorsCard = PrimaryPushSettingCard(
-            self.tr('Authors'),
+            self.tr('Show authors'),
             FIF.PEOPLE,
             self.tr('Authors'),
-            '© ' + self.tr('Copyright') + f" {YEAR}, {SCHOOL}. " +
+            '© ' + self.tr('Copyright') + f" {YEAR}, . " +
             self.tr('Version') + " " + VERSION,
             self.aboutGroup
         )
         self.acknowledgementCard = PrimaryPushSettingCard(
-            self.tr('Contributor'),
+            self.tr('show contributors'),
             FIF.PEOPLE,
             self.tr('Acknowledgement'),
             self.tr('Those made contribution to the software.'),

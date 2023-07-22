@@ -44,7 +44,6 @@ class Config(QConfig):
 
 YEAR = "2004-2020"
 AUTHOR = "Jiang Feng"
-SCHOOL = "Zhejiang University"
 VERSION = "0.1.4"
 HELP_URL = "https://xfz329-pk4adi-tutorial.readthedocs.io/en/latest/"
 REPO_URL = "https://github.com/xfz329/pk4adi_gui"

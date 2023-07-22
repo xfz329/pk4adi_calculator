@@ -24,13 +24,13 @@ class DataToolBar(ToolBar):
     def __init__(self, title, subtitle, parent=None):
         super().__init__(title = title, subtitle = subtitle, parent=parent)
 
-        self.openDataButton = PrimaryPushButton("Open file", self, FluentIcon.DOCUMENT)
+        self.openDataButton = PrimaryPushButton(self.tr("Open file"), self, FluentIcon.DOCUMENT)
         self.separator1 = SeparatorWidget(self)
-        self.toFirstButton = PrimaryPushButton("To the first", self)
-        self.toPreviousButton = PrimaryPushButton("To the previous", self)
-        self.toNextButton = PrimaryPushButton("To the next", self)
+        self.toFirstButton = PrimaryPushButton(self.tr("To the first"), self)
+        self.toPreviousButton = PrimaryPushButton(self.tr("To the previous"), self)
+        self.toNextButton = PrimaryPushButton(self.tr("To the next"), self)
         self.separator2 = SeparatorWidget(self)
-        self.textButton = PillPushButton("text", self, FluentIcon.TAG)
+        self.textButton = PillPushButton(self.tr("text"), self, FluentIcon.TAG)
         self.themeButton = ToolButton(FluentIcon.CONSTRACT, self)
 
         self.__initButtonLayout()
@@ -74,34 +74,34 @@ class DataToolBar(ToolBar):
     def openData(self):
         # file = r"D:\UrgeData\Desktop\pk_test\12.xlsx"
         self.__setPrimaryPushButtonVisible()
-        f = QFileDialog.getOpenFileName(None, "OPen", ".", "csv or xls files (*.csv *.xls *xlsx)")
+        f = QFileDialog.getOpenFileName(None, self.tr("OPen"), ".", self.tr("csv or xls files (*.csv *.xls *xlsx)"))
         file = f[0]
         if file == "":
-            self.logger.error("Selected nothing to open")
+            self.logger.error(self.tr("Selected nothing to open"))
             return None
-        self.logger.info("The selected file to open is {0} , try opening it in a new thread.".format(file))
+        self.logger.info(self.tr("The selected file to open is {0} , try opening it in a new thread.").format(file))
         self.openThread.set_file(file)
         self.openThread.start()
 
     def loadData(self):
         df = self.openThread.get_ans()
-        self.logger.info("Load data read from the thread")
+        self.logger.info(self.tr("Load data read from the thread"))
         self.logger.debug(df)
         if isinstance(df, dict) :
             n = len(list(df.keys()))
             set_value("workbooks", df)
             set_value("workbook_names", list(df.keys()))
             set_value("total_workbook_num", n)
-            self.logger.info("The data contains multi-workbooks, the names listed as the following:")
+            self.logger.info(self.tr("The data contains multi-workbooks, the names listed as the following:"))
             self.logger.info(list(df.keys()))
-            self.logger.info("Display the first workbook.")
+            self.logger.info(self.tr("Display the first workbook."))
             self.toX(0)
             if  n > 1 :
                 self.__setPrimaryPushButtonVisible(True)
         elif isinstance(df, pd.DataFrame):
             set_value("current_workbook", df)
-            self.logger.info("The data with single workbook has been displayed.")
-            self.createTopRightInfoBar("Success", "Display the data in the file.")
+            self.logger.info(self.tr("The data with single workbook has been displayed."))
+            self.createTopRightInfoBar(self.tr("Success"), self.tr("Display the data in the file."))
             self.checkDataFrame()
             self.newDataReadSig.emit()
         else:
@@ -115,9 +115,9 @@ class DataToolBar(ToolBar):
         set_value("current_workbook_name", name)
         set_value("current_workbook", workbooks.get(name))
         self.checkDataFrame()
-        text = "Workbook {0} ( {1} / {2} )".format(name, str(x+1), str(get_value("total_workbook_num")) )
-        self.logger.info("The workbook named {0} has been displayed.".format(name))
-        self.createTopRightInfoBar("Success", "Display the workbook {} in the file.".format(name))
+        text = self.tr("Workbook {0} ( {1} / {2} )").format(name, str(x+1), str(get_value("total_workbook_num")) )
+        self.logger.info(self.tr("The workbook named {0} has been displayed.").format(name))
+        self.createTopRightInfoBar(self.tr("Success"), self.tr("Display the workbook {0} in the file.").format(name))
         self.textButton.setText(text)
         self.newDataReadSig.emit()
 
@@ -140,13 +140,15 @@ class DataToolBar(ToolBar):
         df = get_value("current_workbook")
         col = df.columns.tolist()
         if len(col) != len(set(col)):
-            self.logger.warning("There are duplicate column names in the displaying data. This may trigger subsequent calculation errors or program crashes.")
-            self.createTopRightInfoBar("Warn","There are duplicate column names in the displaying data. This may trigger subsequent calculation errors or program crashes.", InfoBar.warning, 4000)
+            self.logger.warning(self.tr("There are duplicate column names in the displaying data. This may trigger subsequent calculation errors or program crashes."))
+            self.createTopRightInfoBar(self.tr("Warn"),self.tr("There are duplicate column names in the displaying data. This may "
+                                                               "trigger subsequent calculation errors or program crashes."), InfoBar.warning, 4000)
         not_str = False
         for c in df.columns:
             if not isinstance(c, str):
                 not_str = True
         if not_str:
-            self.logger.warning("Plain number used as the column name in the displaying data. This may trigger subsequent calculation errors or program crashes.")
-            self.createTopRightInfoBar("Warn", "Plain number used as the column name in the displaying data. This may trigger subsequent calculation errors or program crashes.", InfoBar.warning, 4000)
+            self.logger.warning(self.tr("Plain number used as the column name in the displaying data. This may trigger subsequent calculation errors or program crashes."))
+            self.createTopRightInfoBar(self.tr("Warn"), self.tr("Plain number used as the column name in the displaying data. This may "
+                                                                "trigger subsequent calculation errors or program crashes."), InfoBar.warning, 4000)
 

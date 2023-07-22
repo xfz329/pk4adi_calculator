@@ -41,15 +41,15 @@ class HomeInterface(ScrollArea):
             self.tr("Start using PK4ADI Calculator!"), self.view)
         startView.addSampleCard(
             icon="./resource/images/controls/DataGrid.png",
-            title="Input",
+            title=self.tr("Data"),
             content=self.tr(
-                "Set input"),
+                "Open file"),
             routeKey="data_interface",
             index=0
         )
         startView.addSampleCard(
             icon="./resource/images/controls/MenuFlyout.png",
-            title="Variables",
+            title=self.tr("Variables"),
             content=self.tr(
                 "Set variables"),
             routeKey="operate_interface",
@@ -57,7 +57,7 @@ class HomeInterface(ScrollArea):
         )
         startView.addSampleCard(
             icon="./resource/images/controls/DataGrid.png",
-            title="Output",
+            title=self.tr("Output"),
             content=self.tr(
                 "Get output"),
             routeKey="output_interface",

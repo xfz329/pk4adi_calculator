@@ -23,16 +23,16 @@ class OpenThread(BasicThread):
     def run(self):
         file = self.file
         if file is None:
-            self.logger.error("The file name is empty！")
+            self.logger.error(self.tr("The file name is empty!"))
             ans = None
         if file.endswith(".csv"):
             ans = pd.read_csv(file)
-            self.logger.info("The csv file {0} read finished.".format(file))
+            self.logger.info(self.tr("The csv file {0} read finished.").format(file))
         elif file.endswith(".xls") or file.endswith(".xlsx"):
             ans = pd.read_excel(file, None)
-            self.logger.info("The xls/xlsx file {0} read finished.".format(file))
+            self.logger.info(self.tr("The xls/xlsx file {0} read finished.").format(file))
         else:
-            self.logger.error("The file {0} is not supported yet.".format(file))
+            self.logger.error(self.tr("The file {0} is not supported yet.").format(file))
             ans= None
         self.ans = ans
         self.finished_signal.emit()

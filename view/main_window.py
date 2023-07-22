@@ -37,7 +37,7 @@ class MainWindow(FluentWindow):
         self.splashScreen.finish()
 
         self.logger = Logger().get_logger()
-        self.logger.info("Init software {} finished!".format(VERSION))
+        self.logger.info(self.tr("Init software {0} finished!").format(VERSION))
 
     def initLayout(self):
         self.dataInterface.toolBar.newDataReadSig.connect(self.operateInterface.updateList)
@@ -58,14 +58,14 @@ class MainWindow(FluentWindow):
         #
         pos = NavigationItemPosition.SCROLL
 
-        self.addSubInterface(self.dataInterface, FIF.DOCUMENT, "Data", pos)
-        self.addSubInterface(self.operateInterface, FIF.CALENDAR, "Operate", pos)
-        self.addSubInterface(self.outputInterface, FIF.VIEW, "Output", pos)
+        self.addSubInterface(self.dataInterface, FIF.DOCUMENT, self.tr("Data"), pos)
+        self.addSubInterface(self.operateInterface, FIF.CALENDAR, self.tr("Operate"), pos)
+        self.addSubInterface(self.outputInterface, FIF.VIEW, self.tr("Output"), pos)
 
         # add custom widget to bottom
         self.navigationInterface.addWidget(
             routeKey='avatar',
-            widget=NavigationAvatarWidget('Jiang Feng', './resource/images/haibara.jpg'),
+            widget=NavigationAvatarWidget(self.tr('Jiang Feng'), './resource/images/haibara.jpg'),
             onClick=self.onSupport,
             position=NavigationItemPosition.BOTTOM
         )
@@ -76,7 +76,7 @@ class MainWindow(FluentWindow):
         self.resize(960, 780)
         self.setMinimumWidth(760)
         self.setWindowIcon(QIcon('./resource/images/logo.png'))
-        self.setWindowTitle('PK4ADI Calculator')
+        self.setWindowTitle(self.tr('PK4ADI Calculator'))
 
         # create splash screen
         self.splashScreen = SplashScreen(self.windowIcon(), self)
@@ -90,16 +90,12 @@ class MainWindow(FluentWindow):
         QApplication.processEvents()
 
     def onSupport(self):
-        # w = MessageBox(
-        #     '支持作者🥰',
-        #     '个人开发不易，如果这个项目帮助到了您，可以考虑请作者喝一瓶快乐水🥤。您的支持就是作者开发和维护项目的动力🚀',
-        #     self
-        # )
-        # w.yesButton.setText('来啦老弟')
-        # w.cancelButton.setText('下次一定')
-        # if w.exec():
-        #     QDesktopServices.openUrl(QUrl(SUPPORT_URL))
-        pass
+        w = MessageBox(
+            self.tr('Contact author'),
+            'silencejiang@zju.edu.cn',
+            self
+        )
+        w.exec()
 
     def switchToSample(self, routeKey, index):
         """ switch to sample """

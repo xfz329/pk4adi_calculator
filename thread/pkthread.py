@@ -55,7 +55,7 @@ class PKThread(BasicThread):
         self.pks_name_dict = get_value("pks_name_dict")
         self.pks_n = get_value("pks_n")
 
-        self.logger.info("Working in the thread.")
+        self.logger.info(self.tr("Working in the thread."))
 
         if self.work_type == "PK":
             self.do_calculate_pk()
@@ -81,7 +81,7 @@ class PKThread(BasicThread):
         set_value("last_work_file", xlsx_name)
         set_value("last_work_dir", full_path)
 
-        self.logger.info("Save the result to the following files")
+        self.logger.info(self.tr("Save the result to the following files."))
         self.logger.info(csv_name_utf8)
         self.logger.info(csv_name_ansi)
         self.logger.info(xlsx_name)
@@ -91,12 +91,12 @@ class PKThread(BasicThread):
         y_names = get_value("y_names")
         pk_ready = len(x_names) > 0 and len(y_names) == 1
         if not pk_ready:
-            self.error_signal.emit("Must set a independent variable only and a test variable at least for calculating the PKs.")
-            self.logger.error("Must set a independent variable only and a test variable at least for calculating the PKs.")
+            self.error_signal.emit(self.tr("Must set a independent variable only and a test variable at least for calculating the PKs."))
+            self.logger.error(self.tr("Must set a independent variable only and a test variable at least for calculating the PKs."))
             return
 
-        pk_columns = ["Independent variables", "Test variables", "PK", "SE0", "SE1", "Jackknife", "PKj", "SEj",
-                      "Error Detail"]
+        pk_columns = [self.tr("Independent variables"), self.tr("Test variables"), "PK", "SE0", "SE1", self.tr("Jackknife"), "PKj", "SEj",
+                      self.tr("Error Detail")]
         y_name = y_names[0]
         df = pd.DataFrame(columns=pk_columns)
 
@@ -110,9 +110,9 @@ class PKThread(BasicThread):
                 new_row = [y_name, x_name, "", "", "", "", "", "", ans]
                 df.loc[df.shape[0]] = new_row
                 self.warn_signal.emit(ans)
-                self.logger.error("The result above contains error, calculate pk failed.")
+                self.logger.error(self.tr("The result above contains error, calculate pk failed."))
 
-        self.logger.info("Calculate PKs command finished. Start saving the results.")
+        self.logger.info(self.tr("Calculate PKs command finished. Start saving the results."))
         df = df.applymap(self.myround)
 
         set_value("last_work", "pk")
@@ -129,13 +129,13 @@ class PKThread(BasicThread):
         y_names = get_value("y_names")
         pks_ready = len(x_names) > 1 and len(y_names) == 1
         if not pks_ready:
-            self.error_signal.emit("Must set a independent variable only and two test variables at least for comparing the PKs.")
-            self.logger.error("Must set a independent variable only and two test variables at least for comparing the PKs.")
+            self.error_signal.emit(self.tr("Must set a independent variable only and two test variables at least for comparing the PKs."))
+            self.logger.error(self.tr("Must set a independent variable only and two test variables at least for comparing the PKs."))
             return
 
-        pks_columns = ["Independent variables", "Test variables 1", "Test variables 2",
-                       "PKD", "SED", "ZD", "P value of norm", "Comment 1",
-                       "PKDJ", "SEDJ", "DF", "TD", "P value of t", "Comment 2", "Error 1", "Error 2"]
+        pks_columns = [self.tr("Independent variables"), self.tr("Test variables 1"), self.tr("Test variables 2"),
+                       "PKD", "SED", "ZD", self.tr("P value of norm"), self.tr("Comment 1"),
+                       "PKDJ", "SEDJ", "DF", "TD", self.tr("P value of t"), self.tr("Comment 2"), self.tr("Error 1"), self.tr("Error 2")]
         y_name = y_names[0]
         df = pd.DataFrame(columns=pks_columns)
 
@@ -166,9 +166,9 @@ class PKThread(BasicThread):
                                    "", "", "", "", "",
                                    "", "", "", "", "", "", e1, e2]
                         df.loc[df.shape[0]] = new_row
-                        self.logger.error("The result above contains error, compare pks failed.")
+                        self.logger.error(self.tr("The result above contains error, compare pks failed."))
 
-        self.logger.info("Compare PKs command finished. Start saving the results.")
+        self.logger.info(self.tr("Compare PKs command finished. Start saving the results."))
         df = df.applymap(self.myround)
 
         set_value("last_work", "pks")
@@ -185,14 +185,14 @@ class PKThread(BasicThread):
         self.finished_signal.emit()
 
     def query_pk(self, x, y):
-        self.logger.info("Query the PK between {0} and {1}".format(x, y))
+        self.logger.info(self.tr("Query the PK between {0} and {1}").format(x, y))
         for k in self.pk_name_dict:
             if [x, y] == self.pk_name_dict.get(k, "unknown"):
-                self.logger.info("Get the cache result.")
+                self.logger.info(self.tr("Get the cache result."))
                 return self.pk_dict.get(k, "unknown")
-        self.logger.info("There is no cache result, start calculating PK.")
+        self.logger.info(self.tr("There is no cache result, start calculating PK."))
         ans = self.get_pk(x, y)
-        self.logger.info("Calculating PK finished, the result is as the following.")
+        self.logger.info(self.tr("Calculating PK finished, the result is as the following."))
         self.logger.debug(ans)
 
         key = str(self.pk_n)
@@ -202,15 +202,15 @@ class PKThread(BasicThread):
         return ans
 
     def query_pks(self, x1, x2, y):
-        self.logger.info("Query the PKs' comparison result between the PK value of {0} and {1} and the PK value of {2} and {3}.".format(x1, y, x2, y))
+        self.logger.info(self.tr("Query the PKs' comparison result between the PK value of {0} and {1} and the PK value of {2} and {3}.").format(x1, y, x2, y))
         for k in self.pks_name_dict:
             if [x1, x2, y] == self.pks_name_dict.get(k, "unknown"):
-                self.logger.info("Get the cache result.")
+                self.logger.info(self.tr("Get the cache result."))
                 return self.pks_dict.get(k, "unknown")
-        self.logger.info("There is no cache result, start compare PK.")
+        self.logger.info(self.tr("There is no cache result, start compare PK."))
         pk1 = self.query_pk(x1, y)
         pk2 = self.query_pk(x2, y)
-        self.logger.info("Comparing PK finished, the result is as the following.")
+        self.logger.info(self.tr("Comparing PK finished, the result is as the following."))
         if isinstance(pk1, dict) and isinstance(pk2, dict):
             ans = compare_pks(pk1, pk2, False)
             key = str(self.pks_n)
@@ -228,25 +228,25 @@ class PKThread(BasicThread):
         y = self.data.loc[:, yn]
 
         if x.apply(lambda n: not isinstance(n, (int, float))).any():
-            warn_str = "The test variable's data type errors, it should be the int or float."
+            warn_str = self.tr("The test variable's data type errors, it should be the int or float.")
             return warn_str
         if x.isna().any():
-            warn_str = "The test variable contains nan."
+            warn_str = self.tr("The test variable contains nan.")
             return warn_str
         if y.apply(lambda n: not isinstance(n, (int, float))).any():
-            warn_str = "The independent variable's data type errors, it should be the int or float."
+            warn_str = self.tr("The independent variable's data type errors, it should be the int or float.")
             return warn_str
         if y.isna().any():
-            warn_str = "The independent variable contains nan."
+            warn_str = self.tr("The independent variable contains nan.")
             return warn_str
         lx = len(x)
         ly = len(y)
         if lx != ly or lx < 2:
-            warn_str = "The lengths of test and independent variable are not equal or the length less than 2."
+            warn_str = self.tr("The lengths of test and independent variable are not equal or the length less than 2.")
             return warn_str
         sy = y.tolist()
         if len(set(sy)) < 2:
-            warn_str = "The independent variable should contain 2 distinct values at least."
+            warn_str = self.tr("The independent variable should contain 2 distinct values at least.")
             return warn_str
         return calculate_pk(x, y, False)
 

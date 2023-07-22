@@ -26,7 +26,7 @@ class OutputInterface(QWidget):
         self.widget = QWidget(self)
         self.gridLayout = QGridLayout(self)
 
-        self.toolBar = OutputToolBar("Output", "Display the output of last analysis command.", self)
+        self.toolBar = OutputToolBar(self.tr("Output"), self.tr("Display the output of last analysis command."), self)
         self.table = TableWidget(self)
         self.work_dir = None
         self.work_type = None

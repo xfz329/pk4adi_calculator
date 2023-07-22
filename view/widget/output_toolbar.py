@@ -24,11 +24,11 @@ class OutputToolBar(ToolBar):
     def __init__(self, title, subtitle, parent=None):
         super().__init__(title = title, subtitle = subtitle, parent=parent)
 
-        self.openRootDirButton = PrimaryPushButton("Open the root dir", self, FluentIcon.BOOK_SHELF)
-        self.openDirButton = PrimaryPushButton("Open the subdir", self, FluentIcon.FOLDER)
-        self.editButton = PrimaryPushButton("Take notes", self, FluentIcon.EDIT)
+        self.openRootDirButton = PrimaryPushButton(self.tr("Open the root dir"), self, FluentIcon.BOOK_SHELF)
+        self.openDirButton = PrimaryPushButton(self.tr("Open the subdir"), self, FluentIcon.FOLDER)
+        self.editButton = PrimaryPushButton(self.tr("Take notes"), self, FluentIcon.EDIT)
         self.separator = SeparatorWidget(self)
-        self.textButton = PillPushButton("Opened nothing", self, FluentIcon.TAG)
+        self.textButton = PillPushButton(self.tr("Opened nothing"), self, FluentIcon.TAG)
         self.themeButton = ToolButton(FluentIcon.CONSTRACT, self)
 
         self.logger = Logger().get_logger()
@@ -62,7 +62,7 @@ class OutputToolBar(ToolBar):
 
     def openDir(self):
         os.startfile(get_value("last_work_dir"))
-        self.logger.info("Open the sub folder of the output.")
+        self.logger.info(self.tr("Open the sub folder of the output."))
 
     def edit(self):
         d = Demo_Window()
@@ -73,8 +73,8 @@ class OutputToolBar(ToolBar):
         self.textButton.setText(str)
 
     def showInfoBar(self, str):
-        self.createTopRightInfoBar("Success",str, InfoBar.success)
+        self.createTopRightInfoBar(self.tr("Success"),str, InfoBar.success)
 
     def openRootDir(self):
         os.startfile(cfg.get(cfg.outputFolder))
-        self.logger.info("Open the root folder of the output.")
+        self.logger.info(self.tr("Open the root folder of the output."))

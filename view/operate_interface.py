@@ -25,7 +25,7 @@ class OperateInterface(QWidget):
         self.gridLayout = QGridLayout(self)
         self.verticalLayout = QVBoxLayout()
 
-        self.toolBar = OperateToolBar("Analysis", "Calculate and compare the PK values.", self)
+        self.toolBar = OperateToolBar(self.tr("Analysis"), self.tr("Calculate and compare the PK values."), self)
         self.listWidget_all = ListWidget(self)
         self.listWidget_y = ListWidget(self)
         self.listWidget_x = ListWidget(self)
@@ -34,13 +34,13 @@ class OperateInterface(QWidget):
         self.frame_x = Frame(self)
         self.frame_y = Frame(self)
 
-        self.pushButton_y = PrimaryPushButton("Add", self)
-        self.pushButton_all = PrimaryPushButton("Add all", self)
-        self.pushButton_x = PrimaryPushButton("Add", self)
+        self.pushButton_y = PrimaryPushButton(self.tr("Add"), self)
+        self.pushButton_all = PrimaryPushButton(self.tr("Add all"), self)
+        self.pushButton_x = PrimaryPushButton(self.tr("Add"), self)
 
-        self.variables_all = PillPushButton("Available variables", self, FluentIcon.TAG)
-        self.variables_x = PillPushButton("Test variables", self, FluentIcon.TAG)
-        self.variables_y = PillPushButton("Independent variables", self, FluentIcon.TAG)
+        self.variables_all = PillPushButton(self.tr("Available variables"), self, FluentIcon.TAG)
+        self.variables_x = PillPushButton(self.tr("Test variables"), self, FluentIcon.TAG)
+        self.variables_y = PillPushButton(self.tr("Independent variables"), self, FluentIcon.TAG)
 
         self.list_all = []
 
@@ -101,9 +101,9 @@ class OperateInterface(QWidget):
         self.pushButton_y.setEnabled(True)
         self.pushButton_all.setEnabled(True)
 
-        self.pushButton_x.setText("Add")
-        self.pushButton_y.setText("Add")
-        self.pushButton_all.setText("Add all")
+        self.pushButton_x.setText(self.tr("Add"))
+        self.pushButton_y.setText(self.tr("Add"))
+        self.pushButton_all.setText(self.tr("Add all"))
 
         self.add_to_x = True
         self.add_to_y = True
@@ -160,16 +160,16 @@ class OperateInterface(QWidget):
         set_value("pks_name_dict", {})
         set_value("pks_n", 0)
 
-        self.logger.info("Update the available variables in the data. All the storage cache has been reset.")
-        self.logger.info("The available variables list as {0}".format(self.list_all))
+        self.logger.info(self.tr("Update the available variables in the data. All the storage cache has been reset."))
+        self.logger.info(self.tr("The available variables list as {0}").format(self.list_all))
 
     def remove_from_x(self):
-        self.pushButton_x.setText("Remove")
-        self.pushButton_all.setText("Remove all")
+        self.pushButton_x.setText(self.tr("Remove"))
+        self.pushButton_all.setText(self.tr("Remove all"))
         self.add_to_x = False
 
     def remove_from_y(self):
-        self.pushButton_y.setText("Remove")
+        self.pushButton_y.setText(self.tr("Remove"))
         self.add_to_y = False
 
     def exchange_selected(self, source, destination):
@@ -223,43 +223,43 @@ class OperateInterface(QWidget):
         set_value("y_names", y)
         set_value("output_dir", cfg.get(cfg.outputFolder))
 
-        self.logger.info("The test variables include ")
+        self.logger.info(self.tr("The test variables include the following:"))
         self.logger.info(x)
-        self.logger.info("The independent variable includes ")
+        self.logger.info(self.tr("The independent variable includes the following:"))
         self.logger.info(y)
 
     def calculate(self):
-        self.logger.info("Start calculating PKs.")
-        self.toolBar.textButton.setText("Calculating")
+        self.logger.info(self.tr("Start calculating PKs."))
+        self.toolBar.textButton.setText(self.tr("Calculating"))
         self.toolBar.showProgressBar(True)
         self.enbaleAllButtons(False)
         self.collect_xy()
         self.pkThread.set_work_type("PK")
         self.pkThread.start()
-        self.calculate_started_signal.emit("Calculating PKs")
+        self.calculate_started_signal.emit(self.tr("Calculating PKs"))
 
     def compare(self):
-        self.logger.info("Start comparing PKs.")
-        self.toolBar.textButton.setText("Comparing")
+        self.logger.info(self.tr("Start comparing PKs."))
+        self.toolBar.textButton.setText(self.tr("Comparing"))
         self.toolBar.showProgressBar(True)
         self.enbaleAllButtons(False)
         self.collect_xy()
         self.pkThread.set_work_type("PKC")
         self.pkThread.start()
-        self.calculate_started_signal.emit("Comparing PKs")
+        self.calculate_started_signal.emit(self.tr("Comparing PKs"))
 
     def calculate_compare_finished(self):
         self.toolBar.showProgressBar(False)
         self.enbaleAllButtons(True)
-        self.toolBar.createTopRightInfoBar("Success!", "The operation success! Please refer the output for details.", InfoBar.success)
-        self.calculate_finished_signal.emit("Open the file {0}".format(get_value("last_work_file")))
+        self.toolBar.createTopRightInfoBar(self.tr("Success!"), self.tr("The operation success! Please refer the output for details."), InfoBar.success)
+        self.calculate_finished_signal.emit(self.tr("Open the file {0}").format(get_value("last_work_file")))
 
     def error_occurred(self, str):
         self.toolBar.showProgressBar(False)
         self.enbaleAllButtons(True)
-        self.toolBar.createTopRightInfoBar("Error!", str,InfoBar.error)
+        self.toolBar.createTopRightInfoBar(self.tr("Error!"), str,InfoBar.error)
 
     def warn_occurred(self, str):
-        self.toolBar.createTopRightInfoBar("Warn!", str,InfoBar.warning)
+        self.toolBar.createTopRightInfoBar(self.tr("Warn!"), str,InfoBar.warning)
 
 

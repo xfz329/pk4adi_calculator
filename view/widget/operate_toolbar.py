@@ -18,12 +18,12 @@ class OperateToolBar(ToolBar):
     def __init__(self, title, subtitle, parent=None):
         super().__init__(title = title, subtitle = subtitle, parent=parent)
 
-        self.calcaulateButton = PrimaryPushButton("Calculate PKs", self)
-        self.compareButton = PrimaryPushButton("Compare PKs", self)
+        self.calcaulateButton = PrimaryPushButton(self.tr("Calculate PKs"), self)
+        self.compareButton = PrimaryPushButton(self.tr("Compare PKs"), self)
         self.separator1 = SeparatorWidget(self)
-        self.resetButton = PrimaryPushButton("Reset variables", self)
+        self.resetButton = PrimaryPushButton(self.tr("Reset variables"), self)
         self.separator2 = SeparatorWidget(self)
-        self.textButton = PillPushButton("Calculating", self, FluentIcon.TAG)
+        self.textButton = PillPushButton(self.tr("Calculating"), self, FluentIcon.TAG)
         self.progressbar = IndeterminateProgressBar(self)
         self.themeButton = ToolButton(FluentIcon.CONSTRACT, self)
 

@@ -32,11 +32,11 @@ class Ui_Form(object):
         self.edit.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.edit.setFocus()
         self.gridLayout.addWidget(self.edit, 0, 0, 1, 2)
-        self.okButton = PrimaryPushButton("OK", Form)
+        self.okButton = PrimaryPushButton(self.tr("OK"), Form)
         self.gridLayout.addWidget(self.okButton, 1, 0, 1, 1)
-        self.cancelButton = PrimaryPushButton("Cancel", Form)
+        self.cancelButton = PrimaryPushButton(self.tr("Cancel"), Form)
         self.gridLayout.addWidget(self.cancelButton, 1, 1, 1, 1)
-        self.edit.setPlaceholderText("Just write some demo here.")
+        self.edit.setPlaceholderText(self.tr("Just write some demo here."))
 
 
 class Demo_Window(FramelessWindow, Ui_Form):
@@ -57,8 +57,8 @@ class Demo_Window(FramelessWindow, Ui_Form):
         with open(full_name, 'a+', encoding='utf-8') as fp:
             fp.write(text)
             fp.close()
-        self.logger.info("Saved the following note from the user as the file {0}".format(full_name))
+        self.logger.info(self.tr("Saved the following note from the user as the file {0}").format(full_name))
         self.logger.info(text)
-        self.text_signal.emit("The note has been saved as the file {0}".format(full_name))
+        self.text_signal.emit(self.tr("The note has been saved as the file {0}").format(full_name))
         self.close()
 

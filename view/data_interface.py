@@ -19,7 +19,7 @@ class DataInterface(QWidget):
         self.widget = QWidget(self)
         self.gridLayout = QGridLayout(self)
 
-        self.toolBar = DataToolBar("Data", "Select file to conduct analysis.", self)
+        self.toolBar = DataToolBar(self.tr("Data"), self.tr("Select file to conduct analysis."), self)
         self.table = TableWidget(self)
 
         self.__initWidget()
