@@ -2,7 +2,7 @@
 
 ; 安装程序初始定义常量
 !define PRODUCT_NAME "PK4ADI计算器"
-!define PRODUCT_VERSION "0.1.3.d"
+!define PRODUCT_VERSION "0.1.4.a"
 !define PRODUCT_PUBLISHER "浙江大学生仪学院"
 !define PRODUCT_WEB_SITE "http://www.cbeis.zju.edu.cn/main.htm"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
@@ -41,7 +41,7 @@ SetCompressor lzma
 ; ------ MUI 现代界面定义结束 ------
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-OutFile "D:\UrgeData\Documents\Codes\Github\pk_gui\nsis\PK4ADI_0.1.3.d_x64-setup.exe"
+OutFile "D:\UrgeData\Documents\Codes\Github\pk_gui\nsis\PK4ADI_0.1.4.a_x64-setup.exe"
 InstallDir "$PROGRAMFILES\PK4ADI"
 ShowInstDetails show
 ShowUnInstDetails show
@@ -83,20 +83,18 @@ Section Uninstall
   RMDir "$SMPROGRAMS\PK4ADI"
   RMDir ""
 
-  RMDir /r "$INSTDIR\tk"
-  RMDir /r "$INSTDIR\tcl8"
-  RMDir /r "$INSTDIR\tcl"
-  RMDir /r "$INSTDIR\scipy.libs"
-  RMDir /r "$INSTDIR\scipy"
-  RMDir /r "$INSTDIR\qtpy"
-  RMDir /r "$INSTDIR\qtpandas"
-  RMDir /r "$INSTDIR\pytz"
-  RMDir /r "$INSTDIR\PyQt5"
-  RMDir /r "$INSTDIR\pandas"
   RMDir /r "$INSTDIR\numpy"
-  RMDir /r "$INSTDIR\importlib_metadata-6.0.0.dist-info"
-  RMDir /r "$INSTDIR\future"
-  RMDir /r "$INSTDIR\figures"
+  RMDir /r "$INSTDIR\pandas"
+  RMDir /r "$INSTDIR\PIL"
+  RMDir /r "$INSTDIR\PyQt5"
+  RMDir /r "$INSTDIR\Pythonwin"
+  RMDir /r "$INSTDIR\pytz"
+  RMDir /r "$INSTDIR\pywin32_system32"
+  RMDir /r "$INSTDIR\resource"
+  RMDir /r "$INSTDIR\scipy"
+  RMDir /r "$INSTDIR\scipy.libs"
+  RMDir /r "$INSTDIR\win32"
+  RMDir /r "$INSTDIR\win32com"
   Delete   "$INSTDIR\*.*"
 ;  RMDir "$INSTDIR"
 
