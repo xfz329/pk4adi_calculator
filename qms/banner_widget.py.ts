@@ -4,6 +4,11 @@
 <context>
     <name>BannerWidget</name>
     <message>
+        <location filename="../view/widget/banner_widget.py" line="26"/>
+        <source>PK4ADI Calculator</source>
+        <translation>PK4ADI计算器</translation>
+    </message>
+    <message>
         <location filename="../view/widget/banner_widget.py" line="38"/>
         <source>Getting started</source>
         <translation>开始使用</translation>

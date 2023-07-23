@@ -15,7 +15,7 @@
     </message>
 </context>
 <context>
-    <name>Ui_Form</name>
+    <name>Demo_Window</name>
     <message>
         <location filename="../view/window/demo_window.py" line="35"/>
         <source>OK</source>

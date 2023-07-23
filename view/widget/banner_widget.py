@@ -23,7 +23,7 @@ class BannerWidget(QWidget):
         self.setFixedHeight(336)
 
         self.vBoxLayout = QVBoxLayout(self)
-        self.galleryLabel = QLabel('PK4ADI Calculator', self)
+        self.galleryLabel = QLabel(self.tr('PK4ADI Calculator'), self)
         self.banner = QPixmap('./resource/images/header.png')
         self.linkCardView = LinkCardView(self)
 

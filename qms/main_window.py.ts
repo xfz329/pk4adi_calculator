@@ -20,8 +20,8 @@
     </message>
     <message>
         <location filename="../view/main_window.py" line="62"/>
-        <source>Operate</source>
-        <translation>分析操作</translation>
+        <source>Variables</source>
+        <translation>变量</translation>
     </message>
     <message>
         <location filename="../view/main_window.py" line="63"/>

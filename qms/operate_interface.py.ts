@@ -5,12 +5,12 @@
     <name>OperateInterface</name>
     <message>
         <location filename="../view/operate_interface.py" line="28"/>
-        <source>Analysis</source>
-        <translation>分析操作</translation>
+        <source>Variables</source>
+        <translation>变量</translation>
     </message>
     <message>
         <location filename="../view/operate_interface.py" line="28"/>
-        <source>Calculate and compare the PK values.</source>
+        <source>Calculate and compare the PK values of the variables.</source>
         <translation>计算、比较变量间的PK值。</translation>
     </message>
     <message>

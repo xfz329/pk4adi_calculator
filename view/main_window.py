@@ -59,7 +59,7 @@ class MainWindow(FluentWindow):
         pos = NavigationItemPosition.SCROLL
 
         self.addSubInterface(self.dataInterface, FIF.DOCUMENT, self.tr("Data"), pos)
-        self.addSubInterface(self.operateInterface, FIF.CALENDAR, self.tr("Operate"), pos)
+        self.addSubInterface(self.operateInterface, FIF.CALENDAR, self.tr("Variables"), pos)
         self.addSubInterface(self.outputInterface, FIF.VIEW, self.tr("Output"), pos)
 
         # add custom widget to bottom

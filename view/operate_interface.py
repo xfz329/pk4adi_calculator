@@ -25,7 +25,7 @@ class OperateInterface(QWidget):
         self.gridLayout = QGridLayout(self)
         self.verticalLayout = QVBoxLayout()
 
-        self.toolBar = OperateToolBar(self.tr("Analysis"), self.tr("Calculate and compare the PK values."), self)
+        self.toolBar = OperateToolBar(self.tr("Variables"), self.tr("Calculate and compare the PK values of the variables."), self)
         self.listWidget_all = ListWidget(self)
         self.listWidget_y = ListWidget(self)
         self.listWidget_x = ListWidget(self)
