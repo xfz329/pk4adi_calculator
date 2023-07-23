@@ -143,3 +143,5 @@ dmypy.json
 
 # about files
 !/about/*.*
+/config
+!requirements.txt
