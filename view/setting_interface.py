@@ -9,7 +9,7 @@ from qfluentwidgets import (SettingCardGroup, SwitchSettingCard, FolderListSetti
                             ComboBoxSettingCard, ExpandLayout, Theme, CustomColorSettingCard,
                             setTheme, setThemeColor, RangeSettingCard, isDarkTheme)
 from qfluentwidgets import FluentIcon as FIF
-from qfluentwidgets import InfoBar
+from qfluentwidgets import InfoBar, MessageBox
 
 from common.config import cfg, HELP_URL, FEEDBACK_URL, UI_URL, KERNEL_URL, VERSION, YEAR
 from common.style_sheet import StyleSheet
@@ -101,7 +101,7 @@ class SettingInterface(ScrollArea):
             FIF.HELP,
             self.tr('Help'),
             self.tr(
-                'Discover new features and learn useful tips about PK4ADI Calculator.'),
+                'Discover new features and learn useful tips about PK4ADI Calculator'),
             self.aboutGroup
         )
         self.uiCard = HyperlinkCard(
@@ -110,7 +110,7 @@ class SettingInterface(ScrollArea):
             FIF.APPLICATION,
             self.tr('UI'),
             self.tr(
-                'Based on PyQt-Fluent-Widgets developed by zhiyiYo.'),
+                'Based on PyQt-Fluent-Widgets developed by zhiyiYo'),
             self.aboutGroup
         )
         self.kernelCard = HyperlinkCard(
@@ -119,13 +119,13 @@ class SettingInterface(ScrollArea):
             FIF.INFO,
             self.tr('Kernel'),
             self.tr(
-                'Based on python package PK4ADI 0.1.3.'),
+                'Based on python package PK4ADI 0.1.3'),
             self.aboutGroup
         )
         self.licenseCard = PrimaryPushSettingCard(
-            self.tr('License'),
-            FIF.DICTIONARY,
             self.tr('Show license'),
+            FIF.DICTIONARY,
+            self.tr('License'),
             self.tr('MIT'),
             self.aboutGroup
         )
@@ -133,22 +133,22 @@ class SettingInterface(ScrollArea):
             self.tr('Show authors'),
             FIF.PEOPLE,
             self.tr('Authors'),
-            '© ' + self.tr('Copyright') + f" {YEAR}, . " +
+            '© ' + self.tr('Copyright') + f" {YEAR}" +self.tr(", ")+self.tr("Zhejiang University. ") +
             self.tr('Version') + " " + VERSION,
             self.aboutGroup
         )
         self.acknowledgementCard = PrimaryPushSettingCard(
-            self.tr('show contributors'),
+            self.tr('Show contributors'),
             FIF.PEOPLE,
             self.tr('Acknowledgement'),
-            self.tr('Those made contribution to the software.'),
+            self.tr('Thank the contributors of the software'),
             self.aboutGroup
         )
         self.feedbackCard = PrimaryPushSettingCard(
             self.tr('Provide feedback'),
             FIF.FEEDBACK,
             self.tr('Provide feedback'),
-            self.tr('Help us improve PK4ADI Calculator by providing feedback.'),
+            self.tr('Help us improve PK4ADI Calculator by providing feedback'),
             self.aboutGroup
         )
 
@@ -232,15 +232,59 @@ class SettingInterface(ScrollArea):
         self.themeColorCard.colorChanged.connect(setThemeColor)
 
         # about
-        # self.authorsCard.clicked.connect(self.checkUpdateSig)
+        self.licenseCard.clicked.connect(self.show_license)
+        self.authorsCard.clicked.connect(self.show_authors)
+        self.acknowledgementCard.clicked.connect(self.show_contributors)
+
         self.feedbackCard.clicked.connect(
             lambda: QDesktopServices.openUrl(QUrl(FEEDBACK_URL)))
 
     def show_authors(self):
-        pass
+        w = MessageBox(
+            self.tr("Authors"),
+            self.tr("College of Biomedical Engineering & Instrument Science, Zhejiang University") + "\n"
+            + self.tr("Prof. Hang Chen") + "\n"
+            + self.tr("Feng Jiang") + "\n"
+            + self.tr("Mengge Zhang") + "\n"
+            + self.tr("Wanlin Chen") + "\n"
+            + self.tr("Women's Hospital, School of Medicine, Zhejiang University") + "\n"
+            + self.tr("Prof. Xinzhong Chen") + "\n"
+            + self.tr("Hua Li"),
+            self
+        )
+        w.exec()
 
     def show_license(self):
-        pass
+        w = MessageBox(
+            self.tr('License'),
+            "The MIT License (MIT) \n"
+            "Copyright (c) 2023 Zhejiang University.\n"
+            "Permission is hereby granted, free of charge, to any person obtaining a copy "
+            "of this software and associated documentation files (the \"Software\"), to deal "
+            "in the Software without restriction, including without limitation the rights "
+            "to use, copy, modify, merge, publish, distribute, sublicense, and/or sell "
+            "copies of the Software, and to permit persons to whom the Software is"
+            "furnished to do so, subject to the following conditions:\n"
+            "The above copyright notice and this permission notice shall be included in all "
+            "copies or substantial portions of the Software.\n"
+            "THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR"
+            "IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,"
+            "FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE"
+            "AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER"
+            "LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,"
+            "OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE"
+            "SOFTWARE.",
+            self
+        )
+        w.exec()
 
     def show_contributors(self):
-        pass
+        w = MessageBox(
+            self.tr('Contributors'),
+            "Warren D.Smith\n"
+            "Robert C.Dutton\n"
+            "Ty N.Smith\n"
+            "zhiyiYo",
+            self
+        )
+        w.exec()

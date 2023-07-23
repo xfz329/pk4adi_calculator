@@ -230,7 +230,7 @@
     </message>
     <message>
         <location filename="../../view/main_window.py" line="66"/>
-        <source>Jiang Feng</source>
+        <source>Feng Jiang</source>
         <translation>江锋</translation>
     </message>
     <message>
@@ -735,19 +735,9 @@
         <translation>帮助</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="98"/>
-        <source>Discover new features and learn useful tips about PK4ADI Calculator.</source>
-        <translation>发现新功能并了解有关PK4ADI计算器的使用技巧。</translation>
-    </message>
-    <message>
         <location filename="../../view/setting_interface.py" line="107"/>
         <source>UI</source>
         <translation>界面</translation>
-    </message>
-    <message>
-        <location filename="../../view/setting_interface.py" line="107"/>
-        <source>Based on PyQt-Fluent-Widgets developed by zhiyiYo.</source>
-        <translation>基于zhiyiYo开发的开源组件 PyQt-Fluent-Widgets。</translation>
     </message>
     <message>
         <location filename="../../view/setting_interface.py" line="116"/>
@@ -760,19 +750,14 @@
         <translation>软件内核</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="116"/>
-        <source>Based on python package PK4ADI 0.1.3.</source>
-        <translation>基于开源python包 PK4ADI 0.1.3</translation>
-    </message>
-    <message>
-        <location filename="../../view/setting_interface.py" line="125"/>
+        <location filename="../../view/setting_interface.py" line="258"/>
         <source>License</source>
         <translation>协议</translation>
     </message>
     <message>
         <location filename="../../view/setting_interface.py" line="125"/>
         <source>Show license</source>
-        <translation>显示协议</translation>
+        <translation>了解协议</translation>
     </message>
     <message>
         <location filename="../../view/setting_interface.py" line="125"/>
@@ -782,27 +767,22 @@
     <message>
         <location filename="../../view/setting_interface.py" line="132"/>
         <source>Show authors</source>
-        <translation>显示作者</translation>
+        <translation>了解作者</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="132"/>
+        <location filename="../../view/setting_interface.py" line="243"/>
         <source>Authors</source>
         <translation>作者</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="132"/>
+        <location filename="../view/setting_interface.py" line="132"/>
         <source>Copyright</source>
         <translation>版权所有</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="132"/>
+        <location filename="../view/setting_interface.py" line="132"/>
         <source>Version</source>
         <translation>当前版本</translation>
-    </message>
-    <message>
-        <location filename="../../view/setting_interface.py" line="140"/>
-        <source>show contributors</source>
-        <translation>显示其他贡献者</translation>
     </message>
     <message>
         <location filename="../../view/setting_interface.py" line="140"/>
@@ -810,19 +790,9 @@
         <translation>致谢</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="140"/>
-        <source>Those made contribution to the software.</source>
-        <translation>其他人也对本软件有所贡献</translation>
-    </message>
-    <message>
         <location filename="../../view/setting_interface.py" line="147"/>
         <source>Provide feedback</source>
         <translation>提供反馈</translation>
-    </message>
-    <message>
-        <location filename="../../view/setting_interface.py" line="147"/>
-        <source>Help us improve PK4ADI Calculator by providing feedback.</source>
-        <translation>通过提供反馈帮助我们改进 PK4ADI计算器</translation>
     </message>
     <message>
         <location filename="../../view/setting_interface.py" line="205"/>
@@ -838,6 +808,91 @@
         <location filename="../../view/setting_interface.py" line="214"/>
         <source>Choose folder</source>
         <translation>选择文件夹</translation>
+    </message>
+    <message>
+        <location filename="../../view/setting_interface.py" line="98"/>
+        <source>Discover new features and learn useful tips about PK4ADI Calculator</source>
+        <translation>发现新功能并了解有关PK4ADI计算器的使用技巧</translation>
+    </message>
+    <message>
+        <location filename="../../view/setting_interface.py" line="107"/>
+        <source>Based on PyQt-Fluent-Widgets developed by zhiyiYo</source>
+        <translation>基于zhiyiYo开发的开源组件 PyQt-Fluent-Widgets</translation>
+    </message>
+    <message>
+        <location filename="../../view/setting_interface.py" line="116"/>
+        <source>Based on python package PK4ADI 0.1.3</source>
+        <translation>基于开源python包 PK4ADI 0.1.3</translation>
+    </message>
+    <message>
+        <location filename="../../view/setting_interface.py" line="132"/>
+        <source>, </source>
+        <translation>，</translation>
+    </message>
+    <message>
+        <location filename="../../view/setting_interface.py" line="132"/>
+        <source>Zhejiang University. </source>
+        <translation>浙江大学。</translation>
+    </message>
+    <message>
+        <location filename="../../view/setting_interface.py" line="140"/>
+        <source>Show contributors</source>
+        <translation>了解贡献者</translation>
+    </message>
+    <message>
+        <location filename="../../view/setting_interface.py" line="140"/>
+        <source>Thank the contributors of the software</source>
+        <translation>感谢其他贡献者对PK4ADI计算器的贡献</translation>
+    </message>
+    <message>
+        <location filename="../../view/setting_interface.py" line="147"/>
+        <source>Help us improve PK4ADI Calculator by providing feedback</source>
+        <translation>通过提供反馈帮助我们改进 PK4ADI计算器</translation>
+    </message>
+        <message>
+        <location filename="../../view/setting_interface.py" line="243"/>
+        <source>College of Biomedical Engineering &amp; Instrument Science, Zhejiang University</source>
+        <translation>浙江大学生物医学工程与仪器科学学院</translation>
+    </message>
+    <message>
+        <location filename="../../view/setting_interface.py" line="243"/>
+        <source>Prof. Hang Chen</source>
+        <translation>陈杭 教授</translation>
+    </message>
+    <message>
+        <location filename="../../view/setting_interface.py" line="243"/>
+        <source>Feng Jiang</source>
+        <translation>江锋</translation>
+    </message>
+    <message>
+        <location filename="../../view/setting_interface.py" line="243"/>
+        <source>Mengge Zhang</source>
+        <translation>张梦鸽</translation>
+    </message>
+    <message>
+        <location filename="../../view/setting_interface.py" line="243"/>
+        <source>Wanlin Chen</source>
+        <translation>陈婉琳</translation>
+    </message>
+    <message>
+        <location filename="../../view/setting_interface.py" line="243"/>
+        <source>Women&apos;s Hospital, School of Medicine, Zhejiang University</source>
+        <translation>浙江大学医学院附属妇产科医院</translation>
+    </message>
+    <message>
+        <location filename="../../view/setting_interface.py" line="243"/>
+        <source>Prof. Xinzhong Chen</source>
+        <translation>陈新忠 教授</translation>
+    </message>
+    <message>
+        <location filename="../../view/setting_interface.py" line="243"/>
+        <source>Hua Li</source>
+        <translation>李华</translation>
+    </message>
+    <message>
+        <location filename="../../view/setting_interface.py" line="282"/>
+        <source>Contributors</source>
+        <translation>贡献者</translation>
     </message>
 </context>
 <context>

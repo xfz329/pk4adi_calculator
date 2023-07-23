@@ -30,7 +30,7 @@
     </message>
     <message>
         <location filename="../view/main_window.py" line="66"/>
-        <source>Jiang Feng</source>
+        <source>Feng Jiang</source>
         <translation>江锋</translation>
     </message>
     <message>
