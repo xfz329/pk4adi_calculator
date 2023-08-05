@@ -185,8 +185,8 @@
     </message>
     <message>
         <location filename="../view/setting_interface.py" line="116"/>
-        <source>Based on python package PK4ADI 0.1.3</source>
-        <translation>基于开源python包 PK4ADI 0.1.3</translation>
+        <source>Based on python package PK4ADI </source>
+        <translation>基于开源python包 PK4ADI </translation>
     </message>
     <message>
         <location filename="../view/setting_interface.py" line="132"/>

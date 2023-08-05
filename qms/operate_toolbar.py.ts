@@ -20,8 +20,13 @@
     </message>
     <message>
         <location filename="../view/widget/operate_toolbar.py" line="26"/>
-        <source>Calculating</source>
-        <translation>计算中</translation>
+        <source>Percentage of process 0%</source>
+        <translation>当前处理进度 0%</translation>
+    </message>
+    <message>
+        <location filename="../view/widget/operate_toolbar.py" line="52"/>
+        <source>Percentage of process </source>
+        <translation>当前处理进度 </translation>
     </message>
 </context>
 </TS>

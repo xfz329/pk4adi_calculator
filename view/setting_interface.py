@@ -11,7 +11,7 @@ from qfluentwidgets import (SettingCardGroup, SwitchSettingCard, FolderListSetti
 from qfluentwidgets import FluentIcon as FIF
 from qfluentwidgets import InfoBar, MessageBox
 
-from common.config import cfg, HELP_URL, FEEDBACK_URL, UI_URL, KERNEL_URL, VERSION, YEAR
+from common.config import cfg, HELP_URL, FEEDBACK_URL, UI_URL, KERNEL_URL, VERSION, YEAR, KERNEL_VERSION
 from common.style_sheet import StyleSheet
 
 
@@ -119,7 +119,7 @@ class SettingInterface(ScrollArea):
             FIF.INFO,
             self.tr('Kernel'),
             self.tr(
-                'Based on python package PK4ADI 0.1.3'),
+                'Based on python package PK4ADI ') + KERNEL_VERSION,
             self.aboutGroup
         )
         self.licenseCard = PrimaryPushSettingCard(

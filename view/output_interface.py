@@ -15,7 +15,7 @@ from PyQt5.QtWidgets import QWidget, QGridLayout, QTableWidgetItem, QSizePolicy,
 from qfluentwidgets import TableWidget, TableItemDelegate
 
 from common.style_sheet import StyleSheet
-from globalvar.vars import get_value
+from globalvar.vars import set_value, get_value
 from view.widget.output_toolbar import OutputToolBar
 
 class OutputInterface(QWidget):
@@ -60,13 +60,7 @@ class OutputInterface(QWidget):
         row_num, col_num = df.shape
         self.table.setRowCount(row_num)
         self.table.setColumnCount(col_num)
-        columns = []
-        for c in df.columns:
-            if not isinstance(c, str):
-                columns.append(str(c))
-            else:
-                columns.append(c)
-        self.table.setHorizontalHeaderLabels(columns)
+        self.table.setHorizontalHeaderLabels(df.columns)
         self.table.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 
         for i in range(row_num):

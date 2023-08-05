@@ -47,13 +47,7 @@ class DataInterface(QWidget):
         row_num, col_num = df.shape
         self.table.setRowCount(row_num)
         self.table.setColumnCount(col_num)
-        columns =[]
-        for c in df.columns:
-            if not isinstance(c, str):
-                columns.append(str(c))
-            else:
-                columns.append(c)
-        self.table.setHorizontalHeaderLabels(columns)
+        self.table.setHorizontalHeaderLabels(df.columns)
         self.table.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 
         for i in range(row_num):

@@ -93,20 +93,5 @@
         <source>Display the workbook {0} in the file.</source>
         <translation>当前显示工作簿名为 {0}。</translation>
     </message>
-    <message>
-        <location filename="../view/widget/data_toolbar.py" line="144"/>
-        <source>There are duplicate column names in the displaying data. This may trigger subsequent calculation errors or program crashes.</source>
-        <translation>当前数据存在重复列名，这可能会引起程序错误。</translation>
-    </message>
-    <message>
-        <location filename="../view/widget/data_toolbar.py" line="152"/>
-        <source>Warn</source>
-        <translation>警告</translation>
-    </message>
-    <message>
-        <location filename="../view/widget/data_toolbar.py" line="152"/>
-        <source>Plain number used as the column name in the displaying data. This may trigger subsequent calculation errors or program crashes.</source>
-        <translation>当前数据存在列名为纯数字，这可能会引起程序错误。</translation>
-    </message>
 </context>
 </TS>
