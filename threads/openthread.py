@@ -7,7 +7,7 @@
 """
 import pandas as pd
 
-from thread.basicthread import BasicThread
+from threads.basicthread import BasicThread
 from utils.logger import Logger
 
 class OpenThread(BasicThread):

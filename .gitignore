@@ -145,3 +145,4 @@ dmypy.json
 !/about/*.*
 /config
 !requirements.txt
+logs/

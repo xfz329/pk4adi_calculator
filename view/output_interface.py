@@ -83,10 +83,10 @@ class PKTableItemDelegate(TableItemDelegate):
     """ Custom table item delegate """
 
     def initStyleOption(self, option: QStyleOptionViewItem, index: QModelIndex):
-        # pk_columns = ["Independent variables", "Test variables", "PK", "SE0", "SE1", "Jackknife", "PKj", "SEj",
-        #               "Error Detail"]
+        # pk_columns = [self.tr("Independent variables"), self.tr("Test variables"), self.tr("Error Detail"),
+        #               "PK", "SE0", "SE1", self.tr("Jackknife"), "PKj", "SEj"]
         super().initStyleOption(option, index)
-        if not index.column() in [8]:
+        if not index.column() in [2]:
             return
         option.palette.setColor(QPalette.Text, Qt.red)
         option.palette.setColor(QPalette.HighlightedText, Qt.red)
@@ -95,12 +95,13 @@ class PKSTableItemDelegate(TableItemDelegate):
     """ Custom table item delegate """
 
     def initStyleOption(self, option: QStyleOptionViewItem, index: QModelIndex):
-        # pks_columns = ["Independent variables", "Test variables 1", "Test variables 2",
-        #                "PKD", "SED", "ZD", "P value of norm", "Comment 1",
-        #                "PKDJ", "SEDJ", "DF", "TD", "P value of t", "Comment 2", "Error 1", "Error 2"]
+        # pks_columns = [self.tr("Independent variables"), self.tr("Test variables 1"), self.tr("Test variables 2"),
+        #                self.tr("Error of PK1"), self.tr("Error of PK2"), self.tr("Error of comparision"),
+        #                "PKD", "SED", "ZD", self.tr("P value of norm"), self.tr("Comment 1"),
+        #                "PKDJ", "SEDJ", "DF", "TD", self.tr("P value of t"), self.tr("Comment 2")]
         super().initStyleOption(option, index)
         column = index.column()
-        if not column in [14, 15]:
+        if not column in [3, 4, 5]:
             return
         option.palette.setColor(QPalette.Text, Qt.red)
         option.palette.setColor(QPalette.HighlightedText, Qt.red)

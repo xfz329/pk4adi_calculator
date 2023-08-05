@@ -9,13 +9,14 @@
 import pandas as pd
 import time
 import os
+import traceback
 from pk4adi.pk import calculate_pk
 from pk4adi.pkc import compare_pks
 
 from PyQt5.QtCore import pyqtSignal
 
 from globalvar.vars import set_value, get_value
-from thread.basicthread import BasicThread
+from threads.basicthread import BasicThread
 from utils.logger import Logger
 
 class PKThread(BasicThread):
@@ -95,19 +96,19 @@ class PKThread(BasicThread):
             self.logger.error(self.tr("Must set a independent variable only and a test variable at least for calculating the PKs."))
             return
 
-        pk_columns = [self.tr("Independent variables"), self.tr("Test variables"), "PK", "SE0", "SE1", self.tr("Jackknife"), "PKj", "SEj",
-                      self.tr("Error Detail")]
+        pk_columns = [self.tr("Independent variables"), self.tr("Test variables"), self.tr("Error Detail"),
+                      "PK", "SE0", "SE1", self.tr("Jackknife"), "PKj", "SEj"]
         y_name = y_names[0]
         df = pd.DataFrame(columns=pk_columns)
 
         for x_name in x_names:
             ans = self.query_pk(x_name, y_name)
             if isinstance(ans, dict):
-                new_row = [y_name, x_name, ans.get("PK"), ans.get("SE0"), ans.get("SE1"),
-                           ans.get("jack_ok"), ans.get("PKj"), ans.get("SEj"), ""]
+                new_row = [y_name, x_name, "", ans.get("PK"), ans.get("SE0"), ans.get("SE1"),
+                           ans.get("jack_ok"), ans.get("PKj"), ans.get("SEj")]
                 df.loc[df.shape[0]] = new_row
             else:
-                new_row = [y_name, x_name, "", "", "", "", "", "", ans]
+                new_row = [y_name, x_name, ans, "", "", "", "", "", ""]
                 df.loc[df.shape[0]] = new_row
                 self.warn_signal.emit(ans)
                 self.logger.error(self.tr("The result above contains error, calculate pk failed."))
@@ -134,8 +135,9 @@ class PKThread(BasicThread):
             return
 
         pks_columns = [self.tr("Independent variables"), self.tr("Test variables 1"), self.tr("Test variables 2"),
+                        self.tr("Error of PK1"), self.tr("Error of PK2"), self.tr("Error of comparision"),
                        "PKD", "SED", "ZD", self.tr("P value of norm"), self.tr("Comment 1"),
-                       "PKDJ", "SEDJ", "DF", "TD", self.tr("P value of t"), self.tr("Comment 2"), self.tr("Error 1"), self.tr("Error 2")]
+                       "PKDJ", "SEDJ", "DF", "TD", self.tr("P value of t"), self.tr("Comment 2")]
         y_name = y_names[0]
         df = pd.DataFrame(columns=pks_columns)
 
@@ -145,9 +147,9 @@ class PKThread(BasicThread):
                     ans = self.query_pks(i, j, y_name)
                     if isinstance(ans, dict):
                         new_row = [y_name, i, j,
+                                   "", "", "",
                                    ans.get("PKD"), ans.get("SED"), ans.get("ZD"), ans.get("ZP"), ans.get("ZJ"),
-                                   ans.get("PKDJ"), ans.get("SEDJ"), ans.get("DF"), ans.get("TD"), ans.get("TP"),
-                                   ans.get("TJ"), "", ""]
+                                   ans.get("PKDJ"), ans.get("SEDJ"), ans.get("DF"), ans.get("TD"), ans.get("TP"), ans.get("TJ")]
                         df.loc[df.shape[0]] = new_row
 
                     if isinstance(ans, list):
@@ -163,8 +165,18 @@ class PKThread(BasicThread):
                             self.warn_signal.emit(e2)
 
                         new_row = [y_name, i, j,
+                                   e1, e2, "",
                                    "", "", "", "", "",
-                                   "", "", "", "", "", "", e1, e2]
+                                   "", "", "", "", "", ""]
+                        df.loc[df.shape[0]] = new_row
+                        self.logger.error(self.tr("The result above contains error, compare pks failed."))
+
+                    if isinstance(ans, str):
+                        self.warn_signal.emit(ans)
+                        new_row = [y_name, i, j,
+                                   "", "", ans,
+                                   "", "", "", "", "",
+                                   "", "", "", "", "",""]
                         df.loc[df.shape[0]] = new_row
                         self.logger.error(self.tr("The result above contains error, compare pks failed."))
 
@@ -212,7 +224,7 @@ class PKThread(BasicThread):
         pk2 = self.query_pk(x2, y)
         self.logger.info(self.tr("Comparing PK finished, the result is as the following."))
         if isinstance(pk1, dict) and isinstance(pk2, dict):
-            ans = compare_pks(pk1, pk2, False)
+            ans = self.get_pks(pk1, pk2)
             key = str(self.pks_n)
             self.pks_name_dict.update({key: [x1, x2, y]})
             self.pks_dict.update({key: ans})
@@ -248,7 +260,25 @@ class PKThread(BasicThread):
         if len(set(sy)) < 2:
             warn_str = self.tr("The independent variable should contain 2 distinct values at least.")
             return warn_str
-        return calculate_pk(x, y, False)
+
+        try:
+            return calculate_pk(x, y, False)
+        except Exception as e:
+            info = traceback.format_exc()
+            self.logger.error(e)
+            self.logger.error(info)
+            # if info.endswith("math domain error\n"):
+            #     return self.tr("math domain error")
+            return str(e)
+
+    def get_pks(self, pk1, pk2):
+        try:
+            return compare_pks(pk1, pk2, False)
+        except Exception as e:
+            info = traceback.format_exc()
+            self.logger.error(e)
+            self.logger.error(info)
+            return str(e)
 
     def myround(self, n ):
         if isinstance(n, float):

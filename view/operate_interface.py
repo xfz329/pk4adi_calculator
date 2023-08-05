@@ -8,7 +8,7 @@ from qfluentwidgets import ListWidget, PrimaryPushButton, PillPushButton, Fluent
 from common.style_sheet import StyleSheet
 from common.config import cfg
 from globalvar.vars import set_value, get_value
-from thread.pkthread import PKThread
+from threads.pkthread import PKThread
 from utils.logger import Logger
 from view.frame import Frame
 from view.widget.operate_toolbar import OperateToolBar

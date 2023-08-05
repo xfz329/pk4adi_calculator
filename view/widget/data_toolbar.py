@@ -13,7 +13,7 @@ from PyQt5.QtWidgets import  QFileDialog
 from qfluentwidgets import ToolButton, FluentIcon, PrimaryPushButton, PillPushButton, InfoBar, ToolTipFilter
 
 from globalvar.vars import set_value, get_value
-from thread.openthread import OpenThread
+from threads.openthread import OpenThread
 from utils.logger import Logger
 from view.widget.separator_widget import SeparatorWidget
 from view.widget.toolbar import ToolBar
