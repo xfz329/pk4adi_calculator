@@ -11,7 +11,7 @@ from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel
 
 from qfluentwidgets import isDarkTheme, FluentIcon
 
-from common.config import HELP_URL, REPO_URL, RELEASE_URL, FEEDBACK_URL, CITE_URL
+from common.config import HELP_URL, REPO_URL, RELEASE_URL, FEEDBACK_URL, CITE_URL, VERSION
 from components.link_card import LinkCardView
 
 
@@ -23,7 +23,7 @@ class BannerWidget(QWidget):
         self.setFixedHeight(336)
 
         self.vBoxLayout = QVBoxLayout(self)
-        self.galleryLabel = QLabel(self.tr('PK4ADI Calculator'), self)
+        self.galleryLabel = QLabel(self.tr('PK4ADI Calculator')+ " "+ VERSION, self)
         self.banner = QPixmap('./resource/images/header.png')
         self.linkCardView = LinkCardView(self)
 

@@ -8,7 +8,7 @@ from qfluentwidgets import ListWidget, PrimaryPushButton, PillPushButton, Fluent
 from common.style_sheet import StyleSheet
 from common.config import cfg
 from globalvar.vars import set_value, get_value
-from thread.pkthread import PKThread
+from threads.pkthread import PKThread
 from utils.logger import Logger
 from view.frame import Frame
 from view.widget.operate_toolbar import OperateToolBar
@@ -129,6 +129,9 @@ class OperateInterface(QWidget):
         self.pkThread.finished_signal.connect(self.calculate_compare_finished)
         self.pkThread.error_signal.connect(self.error_occurred)
         self.pkThread.warn_signal.connect(self.warn_occurred)
+        self.pkThread.success_signal.connect(self.success_occurred)
+        self.pkThread.task_percentage_changed_signal.connect(self.toolBar.progressbar.setValue)
+        self.pkThread.task_percentage_changed_signal.connect(self.toolBar.update_percentage)
 
     def resetLists(self):
         self.setList(self.listWidget_x, [])
@@ -231,7 +234,6 @@ class OperateInterface(QWidget):
     def calculate(self):
         self.logger.info(self.tr("Start calculating PKs."))
         self.toolBar.textButton.setText(self.tr("Calculating"))
-        self.toolBar.showProgressBar(True)
         self.enbaleAllButtons(False)
         self.collect_xy()
         self.pkThread.set_work_type("PK")
@@ -241,7 +243,6 @@ class OperateInterface(QWidget):
     def compare(self):
         self.logger.info(self.tr("Start comparing PKs."))
         self.toolBar.textButton.setText(self.tr("Comparing"))
-        self.toolBar.showProgressBar(True)
         self.enbaleAllButtons(False)
         self.collect_xy()
         self.pkThread.set_work_type("PKC")
@@ -249,13 +250,14 @@ class OperateInterface(QWidget):
         self.calculate_started_signal.emit(self.tr("Comparing PKs"))
 
     def calculate_compare_finished(self):
-        self.toolBar.showProgressBar(False)
         self.enbaleAllButtons(True)
-        self.toolBar.createTopRightInfoBar(self.tr("Success!"), self.tr("The operation success! Please refer the output for details."), InfoBar.success)
+        self.toolBar.createTopLeftInfoBar(self.tr("Success!"), self.tr("The operation success and write the results to files finished!! Please refer the output for details."), InfoBar.success, 2000)
         self.calculate_finished_signal.emit(self.tr("Open the file {0}").format(get_value("last_work_file")))
 
+    def success_occurred(self, str):
+        self.toolBar.createTopLeftInfoBar(self.tr("Success!"), str, InfoBar.success)
+
     def error_occurred(self, str):
-        self.toolBar.showProgressBar(False)
         self.enbaleAllButtons(True)
         self.toolBar.createTopRightInfoBar(self.tr("Error!"), str,InfoBar.error)
 

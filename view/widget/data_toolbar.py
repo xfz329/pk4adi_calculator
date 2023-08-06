@@ -13,7 +13,7 @@ from PyQt5.QtWidgets import  QFileDialog
 from qfluentwidgets import ToolButton, FluentIcon, PrimaryPushButton, PillPushButton, InfoBar, ToolTipFilter
 
 from globalvar.vars import set_value, get_value
-from thread.openthread import OpenThread
+from threads.openthread import OpenThread
 from utils.logger import Logger
 from view.widget.separator_widget import SeparatorWidget
 from view.widget.toolbar import ToolBar
@@ -138,17 +138,10 @@ class DataToolBar(ToolBar):
 
     def checkDataFrame(self):
         df = get_value("current_workbook")
-        col = df.columns.tolist()
-        if len(col) != len(set(col)):
-            self.logger.warning(self.tr("There are duplicate column names in the displaying data. This may trigger subsequent calculation errors or program crashes."))
-            self.createTopRightInfoBar(self.tr("Warn"),self.tr("There are duplicate column names in the displaying data. This may "
-                                                               "trigger subsequent calculation errors or program crashes."), InfoBar.warning, 4000)
-        not_str = False
-        for c in df.columns:
-            if not isinstance(c, str):
-                not_str = True
-        if not_str:
-            self.logger.warning(self.tr("Plain number used as the column name in the displaying data. This may trigger subsequent calculation errors or program crashes."))
-            self.createTopRightInfoBar(self.tr("Warn"), self.tr("Plain number used as the column name in the displaying data. This may "
-                                                                "trigger subsequent calculation errors or program crashes."), InfoBar.warning, 4000)
+        df.rename(columns=self.my_converter, inplace=True)
+        set_value("current_workbook", df)
 
+    def my_converter(self, col):
+        if isinstance(col, int) or isinstance(col, float):
+            return str(col)
+        return col

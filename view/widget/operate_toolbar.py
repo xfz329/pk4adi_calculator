@@ -7,7 +7,7 @@
 """
 from PyQt5.QtCore import Qt
 
-from qfluentwidgets import ToolButton, FluentIcon, PrimaryPushButton, PillPushButton, ToolTipFilter, IndeterminateProgressBar
+from qfluentwidgets import ToolButton, FluentIcon, PrimaryPushButton, PillPushButton, ToolTipFilter, ProgressBar
 
 from view.widget.toolbar import ToolBar
 from view.widget.separator_widget import SeparatorWidget
@@ -23,8 +23,9 @@ class OperateToolBar(ToolBar):
         self.separator1 = SeparatorWidget(self)
         self.resetButton = PrimaryPushButton(self.tr("Reset variables"), self)
         self.separator2 = SeparatorWidget(self)
-        self.textButton = PillPushButton(self.tr("Calculating"), self, FluentIcon.TAG)
-        self.progressbar = IndeterminateProgressBar(self)
+        self.textButton = PillPushButton(self.tr("Percentage of process 0%"), self, FluentIcon.TAG)
+        self.progressbar = ProgressBar(self)
+        self.progressbar.setFixedWidth(200)
         self.themeButton = ToolButton(FluentIcon.CONSTRACT, self)
 
         self.__initButtonLayout()
@@ -46,13 +47,6 @@ class OperateToolBar(ToolBar):
         self.themeButton.installEventFilter(ToolTipFilter(self.themeButton))
         self.themeButton.clicked.connect(self.toggleTheme)
         self.textButton.setCheckable(False)
-        self.showProgressBar(False)
 
-    def showProgressBar(self, visiable):
-        self.separator2.setVisible(visiable)
-        self.progressbar.setVisible(visiable)
-        self.textButton.setVisible(visiable)
-        if visiable:
-            self.progressbar.resume()
-        else:
-            self.progressbar.pause()
+    def update_percentage(self, percentage):
+        self.textButton.setText(self.tr("Percentage of process ") + str(percentage) + "%")

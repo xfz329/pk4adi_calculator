@@ -11,7 +11,7 @@ from qfluentwidgets import (SettingCardGroup, SwitchSettingCard, FolderListSetti
 from qfluentwidgets import FluentIcon as FIF
 from qfluentwidgets import InfoBar, MessageBox
 
-from common.config import cfg, HELP_URL, FEEDBACK_URL, UI_URL, KERNEL_URL, VERSION, YEAR
+from common.config import cfg, HELP_URL, FEEDBACK_URL, UI_URL, KERNEL_URL, VERSION, YEAR, KERNEL_VERSION
 from common.style_sheet import StyleSheet
 
 
@@ -119,7 +119,7 @@ class SettingInterface(ScrollArea):
             FIF.INFO,
             self.tr('Kernel'),
             self.tr(
-                'Based on python package PK4ADI 0.1.3'),
+                'Based on python package PK4ADI ') + KERNEL_VERSION,
             self.aboutGroup
         )
         self.licenseCard = PrimaryPushSettingCard(
@@ -263,16 +263,16 @@ class SettingInterface(ScrollArea):
             "of this software and associated documentation files (the \"Software\"), to deal "
             "in the Software without restriction, including without limitation the rights "
             "to use, copy, modify, merge, publish, distribute, sublicense, and/or sell "
-            "copies of the Software, and to permit persons to whom the Software is"
+            "copies of the Software, and to permit persons to whom the Software is "
             "furnished to do so, subject to the following conditions:\n"
             "The above copyright notice and this permission notice shall be included in all "
             "copies or substantial portions of the Software.\n"
-            "THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR"
-            "IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,"
-            "FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE"
-            "AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER"
-            "LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,"
-            "OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE"
+            "THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR "
+            "IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, "
+            "FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE "
+            "AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER "
+            "LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, "
+            "OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE "
             "SOFTWARE.",
             self
         )

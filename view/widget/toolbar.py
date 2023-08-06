@@ -52,3 +52,14 @@ class ToolBar(QWidget):
             duration=duration,
             parent=self
         )
+
+    def createTopLeftInfoBar(self, info_title, info_content, func = InfoBar.success, duration=2000):
+        func(
+            title= info_title,
+            content=info_content,
+            orient=Qt.Horizontal,
+            isClosable=True,
+            position=InfoBarPosition.TOP_LEFT,
+            duration=duration,
+            parent=self
+        )
