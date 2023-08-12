@@ -1,5 +1,5 @@
 openpyxl
-pk4adi >=0.1.4
+pk4adi>=0.1.4
 pandas
 PyQt5-Frameless-Window>=0.2.7
-PyQt_Fluent_Widgets
+PyQt_Fluent_Widgets>=1.1.3

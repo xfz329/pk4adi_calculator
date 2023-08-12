@@ -768,8 +768,8 @@
     </message>
     <message>
         <location filename="../../view/setting_interface.py" line="125"/>
-        <source>MIT</source>
-        <translation>基于MIT协议</translation>
+        <source>GPLv3</source>
+        <translation>基于GPLv3协议</translation>
     </message>
     <message>
         <location filename="../../view/setting_interface.py" line="132"/>

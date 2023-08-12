@@ -2,7 +2,7 @@
 
 ; 安装程序初始定义常量
 !define PRODUCT_NAME "PK4ADI计算器"
-!define PRODUCT_VERSION "0.1.4.b"
+!define PRODUCT_VERSION "0.1.4.c"
 !define PRODUCT_PUBLISHER "浙江大学生仪学院"
 !define PRODUCT_WEB_SITE "http://www.cbeis.zju.edu.cn/main.htm"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
@@ -21,7 +21,7 @@ SetCompressor lzma
 ; 欢迎页面
 !insertmacro MUI_PAGE_WELCOME
 ; 许可协议页面
-!insertmacro MUI_PAGE_LICENSE "D:\UrgeData\Documents\Codes\Github\pk_gui\license\license.txt"
+!insertmacro MUI_PAGE_LICENSE "D:\UrgeData\Documents\Codes\Github\pk_gui\LICENSE"
 ; 安装目录选择页面
 !insertmacro MUI_PAGE_DIRECTORY
 ; 安装过程页面
@@ -41,7 +41,7 @@ SetCompressor lzma
 ; ------ MUI 现代界面定义结束 ------
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-OutFile "D:\UrgeData\Documents\Codes\Github\pk_gui\nsis\PK4ADI_0.1.4.b_x64-setup.exe"
+OutFile "D:\UrgeData\Documents\Codes\Github\pk_gui\nsis\PK4ADI_0.1.4.c_x64-setup.exe"
 InstallDir "$PROGRAMFILES\PK4ADI"
 ShowInstDetails show
 ShowUnInstDetails show
